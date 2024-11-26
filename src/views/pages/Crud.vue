@@ -174,7 +174,7 @@ function getStatusLabel(status) {
                 <Column selectionMode="multiple" style="width: 3rem" :exportable="false"></Column>
                 <Column field="code" header="Código" sortable style="min-width: 12rem"></Column>
                 <Column field="name" header="Nome" sortable style="min-width: 12rem"></Column>
-                <Column field="category" header="Categoria" sortable style="min-width: 12rem"></Column>
+                <Column field="category" header="Discrição" sortable style="min-width: 12rem"></Column>
 
                 <Column :exportable="false" style="min-width: 12rem">
                     <template #body="slotProps">
@@ -187,7 +187,6 @@ function getStatusLabel(status) {
 
         <Dialog v-model:visible="productDialog" :style="{ width: '450px' }" header="Festa" :modal="true">
             <div class="flex flex-col gap-6">
-                <img v-if="product.image" :src="`https://primefaces.org/cdn/primevue/images/product/${product.image}`" :alt="product.image" class="block m-auto pb-4" />
                 <div>
                     <label for="name" class="block font-bold mb-3">Nome</label>
                     <InputText id="name" v-model.trim="product.name" required="true" autofocus :invalid="submitted && !product.name" fluid />
@@ -210,7 +209,7 @@ function getStatusLabel(status) {
                     </DatePicker>
                 </div>
 
-                <div>
+                <!-- <div>
                     <span class="block font-bold mb-4">Categoria</span>
                     <div class="grid grid-cols-12 gap-4">
                         <div class="flex items-center gap-2 col-span-6">
@@ -230,7 +229,7 @@ function getStatusLabel(status) {
                             <label for="category4">Outros</label>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
                 <div class="grid grid-cols-12 gap-4">
                     <div class="col-span-6">

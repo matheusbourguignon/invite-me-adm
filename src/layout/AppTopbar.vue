@@ -11,9 +11,8 @@ const { onMenuToggle, toggleDarkMode, isDarkTheme } = useLayout();
             <button class="layout-menu-button layout-topbar-action" @click="onMenuToggle">
                 <i class="pi pi-bars"></i>
             </button>
-            <router-link to="/" class="layout-topbar-logo">
-                <img src="/images/invite-me-sem-texto.png" alt="Invite-me Logo" style="width: 100px; margin-top: 25px;">
-          
+            <router-link to="/dashboard" class="layout-topbar-logo">
+                <img src="/img/invite-me-sem-texto.png" alt="Invite-me Logo" style="width: 100px; margin-top: 25px;">
             </router-link>
         </div>
 
@@ -43,14 +42,14 @@ const { onMenuToggle, toggleDarkMode, isDarkTheme } = useLayout();
 
             <div class="layout-topbar-menu hidden lg:block">
                 <div class="layout-topbar-menu-content">
-                    <button type="button" class="layout-topbar-action">
+                    <!-- <button type="button" class="layout-topbar-action">
                         <i class="pi pi-calendar"></i>
                         <span>Calendar</span>
-                    </button>
-                    <button type="button" class="layout-topbar-action">
+                    </button> -->
+                    <!-- <button type="button" class="layout-topbar-action">
                         <i class="pi pi-inbox"></i>
                         <span>Messages</span>
-                    </button>
+                    </button> -->
                     <button type="button" class="layout-topbar-action">
                         <i class="pi pi-user"></i>
                         <span>Profile</span>
