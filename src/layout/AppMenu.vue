@@ -61,9 +61,15 @@ const model = ref([
             },
             {
                 label: 'Eventos',
-                icon: 'pi pi-fw pi-pencil',
+                icon: 'pi pi-fw pi-calendar',
                 to: '/pages/crud'
             },
+            {
+                label: 'Checkin',
+                icon: 'pi pi-fw pi-check',
+                to: '/pages/check-in'
+            }
+            
             // {
             //     label: 'Not Found',
             //     icon: 'pi pi-fw pi-exclamation-circle',
