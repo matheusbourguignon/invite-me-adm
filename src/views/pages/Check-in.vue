@@ -35,7 +35,9 @@ const verificarCheckIn = () => {
 
                         <!-- Removido o QR Code -->
 
-                        <button @click="verificarCheckIn" class="btn-check-in w-full p-4 bg-primary-500 text-white rounded-lg">Verificar Check-In</button>   
+                        <div class="mt-4">
+                            <button @click="verificarCheckIn" class="btn-check-in w-auto p-4 bg-primary-500 text-white rounded-lg">Verificar Check-In</button>
+                        </div>
                     </div>
                 </div>
             </div>
