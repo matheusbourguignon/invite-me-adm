@@ -1,10 +1,9 @@
 <script setup>
 import FloatingConfigurator from '@/components/FloatingConfigurator.vue';
-import QRCode from 'qrcode.vue';
 import { ref } from 'vue';
 
 const email = ref('');
- 
+
 const verificarCheckIn = () => {
     if (email.value) {
         alert(`Check-in realizado com sucesso para o email: ${email.value}`);
@@ -25,7 +24,6 @@ const verificarCheckIn = () => {
                     </div>
 
                     <div>
-                
                         <label for="email1" class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">Email</label>
                         <input
                           id="email1"
@@ -35,11 +33,8 @@ const verificarCheckIn = () => {
                           v-model="email"
                         />
 
-                        <!-- Gerar QR Code com o email -->
-                        <div v-if="email" class="mb-8 flex justify-center">
-                            <QRCode :value="email" size="200" />
-                        </div>
-                  
+                        <!-- Removido o QR Code -->
+
                         <button @click="verificarCheckIn" class="btn-check-in w-full p-4 bg-primary-500 text-white rounded-lg">Verificar Check-In</button>   
                     </div>
                 </div>
