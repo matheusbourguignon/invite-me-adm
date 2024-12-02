@@ -9,11 +9,30 @@ datasource db {
   provider = "sqlite"
   url      = env("DATABASE_URL")
 }
+
+// tabela eventos
+
 model Event {
-  id          String   @id @default(uuid())     // Identificador único do evento
-  title        String                             // Nome do evento
-  details String?                           // Descrição do evento (opcional)   
-  maximumAttendees    Int?     @map("maximum_attendees")// Capacidade máxima de convidados
-  slug        String   @unique                  // Slug único para o evento (URL amigável)
+  id               String     @id @default(uuid()) // Identificador único do evento
+  title            String // Nome do evento
+  details          String? // Descrição do evento (opcional)   
+  maximumAttendees Int?       @map("maximum_attendees") // Capacidade máxima de convidados
+  slug             String     @unique // Slug único para o evento (URL amigável)
+  Attendees        Attendee[]
+
   @@map("events")
+}
+
+// tabela participante
+
+model Attendee {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String
+  createdAt DateTime @default(now()) @map("created_at")
+  eventId   String   @map("event_id")
+
+  event Event @relation(fields: [eventId], references: [id])
+
+  @@map("attendees")
 }
