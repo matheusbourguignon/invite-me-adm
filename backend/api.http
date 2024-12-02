@@ -8,3 +8,13 @@ Content-Type: application/json
   "maximumAttendees": 100,
   "slug": "unite-summit"
 }
+
+###
+
+POST http://localhost:3000/events/1542f322-30da-45ad-b915-831ba1b0e8c4/attendees
+Content-Type: application/json
+
+{
+  "name": "Matheus Bourguignon",
+  "email": "matheusmbl21@gmail.com"
+}
