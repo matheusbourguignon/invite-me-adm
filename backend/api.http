@@ -1,0 +1,10 @@
+### Criar um novo evento
+POST http://localhost:3000/events
+Content-Type: application/json
+
+{
+  "title": "Ana Julia",
+  "details": "15 anos",
+  "maximumAttendees": 100,
+  "slug": "unite-summit"
+}

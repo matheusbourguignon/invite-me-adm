@@ -11,14 +11,9 @@ datasource db {
 }
 model Event {
   id          String   @id @default(uuid())     // Identificador único do evento
-  name        String                             // Nome do evento
-  description String?                           // Descrição do evento (opcional)
-  eventDate   DateTime                          // Data do evento (apenas a data será usada)
-  eventTime   String                            // Hora do evento no formato HH:mm
-  capacity    Int?     @map("capacity")         // Capacidade máxima de convidados
+  title        String                             // Nome do evento
+  details String?                           // Descrição do evento (opcional)   
+  maximumAttendees    Int?     @map("maximum_attendees")// Capacidade máxima de convidados
   slug        String   @unique                  // Slug único para o evento (URL amigável)
-  createdAt   DateTime @default(now())          // Data de criação do registro
-  updatedAt   DateTime @updatedAt               // Última atualização do registro
-
   @@map("events")
 }
