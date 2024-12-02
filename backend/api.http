@@ -3,18 +3,27 @@ POST http://localhost:3000/events
 Content-Type: application/json
 
 {
-  "title": "Ana Julia",
-  "details": "15 anos",
-  "maximumAttendees": 100,
+  "title": "Ana Julia e Romario",
+  "details": "Casamento",
+  "maximumAttendees": 200,
   "slug": "unite-summit"
 }
 
 ###
-
-POST http://localhost:3000/events/1542f322-30da-45ad-b915-831ba1b0e8c4/attendees
+### Criar o participante no evento
+POST http://localhost:3000/events/6b440ae6-860e-4774-852f-011eb70f2399/attendees
 Content-Type: application/json
 
 {
   "name": "Matheus Bourguignon",
   "email": "matheusmbl21@gmail.com"
 }
+
+###
+### Descrição do evento
+GET http://localhost:3333/events/6b440ae6-860e-4774-852f-011eb70f2399
+
+###
+
+### Procurar o participante no evento
+GET http://localhost:3333/attendees/1/badge
