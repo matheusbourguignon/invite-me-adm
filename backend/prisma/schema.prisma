@@ -34,5 +34,6 @@ model Attendee {
 
   event Event @relation(fields: [eventId], references: [id])
 
+  @@unique([eventId, email])  // Chave única composta entre eventId e email
   @@map("attendees")
 }
