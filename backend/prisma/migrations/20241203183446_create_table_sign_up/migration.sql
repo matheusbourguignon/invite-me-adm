@@ -1,5 +1,5 @@
 -- CreateTable
-CREATE TABLE "signUp" (
+CREATE TABLE "sign-In" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
@@ -10,4 +10,4 @@ CREATE TABLE "signUp" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "signUp_email_key" ON "signUp"("email");
+CREATE UNIQUE INDEX "sign-In_email_key" ON "sign-In"("email");

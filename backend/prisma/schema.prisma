@@ -58,7 +58,7 @@ model Account {
 }
 
 // tabela User
-model SignUp {
+model SignIn {
   id        Int      @id @default(autoincrement()) // Identificador único do usuário
   email     String   @unique // Garantir que o email seja único
   password  String   // Senha do usuário
@@ -67,5 +67,5 @@ model SignUp {
   updatedAt DateTime @updatedAt // Data de última atualização do registro
   isActive  Boolean  @default(true) // Indicador se a conta está ativa
 
-  @@map("signUp") // Nome da tabela no banco de dados
+  @@map("sign-In") // Nome da tabela no banco de dados
 }
