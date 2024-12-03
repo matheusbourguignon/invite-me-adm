@@ -18,17 +18,6 @@ Content-Type: application/json
   "email": "matheusmbl21@gmail.com"
 }
 
-### Criar conta com sucesso
-POST http://localhost:3333/create-account
-Content-Type: application/json
-
-{
-  "name": "João Silva",
-  "email": "joao.silva@example.com",
-  "password": "senha123",
-  "date_of_birth": "1998-04-16",
-  "cellphone": 11987654321
-}
 
 
 ###
