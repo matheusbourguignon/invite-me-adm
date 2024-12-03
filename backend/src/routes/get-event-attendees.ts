@@ -10,6 +10,8 @@ export async function getEventAttendees(app: FastifyInstance) {
     .withTypeProvider<ZodTypeProvider>()
     .get('/events/:eventId/attendees', { // Removida a vírgula extra aqui
       schema: {
+        summary: 'Get event attendees',
+        tags: ['events'],
         params: z.object({
           eventId: z.string().uuid(), // Validação de UUID para o parâmetro eventId
         }),
