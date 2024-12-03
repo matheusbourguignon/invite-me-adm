@@ -44,3 +44,15 @@ model CheckIn {
 
   @@map("check_ins")
 }
+
+model Account {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique // Garantir que o email seja único
+  birthdate DateTime? // Campo opcional para data de nascimento
+  password  String
+  cellphone BigInt?  // Novo campo opcional para celular
+  createdAt DateTime @default(now()) @map("created_accounts")
+
+  @@map("accounts") // Nome da tabela no banco de dados
+}
