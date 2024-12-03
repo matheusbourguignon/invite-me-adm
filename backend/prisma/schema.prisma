@@ -56,3 +56,16 @@ model Account {
 
   @@map("accounts") // Nome da tabela no banco de dados
 }
+
+// tabela User
+model SignUp {
+  id        Int      @id @default(autoincrement()) // Identificador único do usuário
+  email     String   @unique // Garantir que o email seja único
+  password  String   // Senha do usuário
+  role      String   @default("user") // Papel do usuário (ex: admin, user)
+  createdAt DateTime @default(now()) // Data de criação do registro
+  updatedAt DateTime @updatedAt // Data de última atualização do registro
+  isActive  Boolean  @default(true) // Indicador se a conta está ativa
+
+  @@map("signUp") // Nome da tabela no banco de dados
+}
