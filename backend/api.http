@@ -31,6 +31,16 @@ Content-Type: application/json
 }
 
 ###
+POST http://localhost:3333/accounts
+Content-Type: application/json
+
+{
+  "email": "joao.silva@example.com",
+  "password": "senha123",
+}
+
+
+###
 ### Descrição do evento
 GET http://localhost:3333/events/6b440ae6-860e-4774-852f-011eb70f2399
 

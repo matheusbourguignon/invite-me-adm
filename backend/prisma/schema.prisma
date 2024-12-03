@@ -45,27 +45,5 @@ model CheckIn {
   @@map("check_ins")
 }
 
-model Account {
-  id        Int      @id @default(autoincrement())
-  name      String
-  email     String   @unique // Garantir que o email seja único
-  birthdate DateTime? // Campo opcional para data de nascimento
-  password  String
-  cellphone BigInt?  // Novo campo opcional para celular
-  createdAt DateTime @default(now()) @map("created_accounts")
 
-  @@map("accounts") // Nome da tabela no banco de dados
-}
 
-// tabela User
-model SignIn {
-  id        Int      @id @default(autoincrement()) // Identificador único do usuário
-  email     String   @unique // Garantir que o email seja único
-  password  String   // Senha do usuário
-  role      String   @default("user") // Papel do usuário (ex: admin, user)
-  createdAt DateTime @default(now()) // Data de criação do registro
-  updatedAt DateTime @updatedAt // Data de última atualização do registro
-  isActive  Boolean  @default(true) // Indicador se a conta está ativa
-
-  @@map("sign-In") // Nome da tabela no banco de dados
-}

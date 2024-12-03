@@ -13,6 +13,7 @@ import { getEventAttendees } from "./routes/get-event-attendees";
 import { errorHandler } from "./error-handler";
 import { createAccount } from "./routes/create-account";
 
+
 export const app = fastify()
 
 
