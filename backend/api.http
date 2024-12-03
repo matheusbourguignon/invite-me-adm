@@ -1,17 +1,16 @@
 ### Criar um novo evento
-POST http://localhost:3000/events
+POST http://localhost:3333/events
 Content-Type: application/json
 
 {
-  "title": "Ana Julia e Romario",
-  "details": "Casamento",
-  "maximumAttendees": 200,
-  "slug": "unite-summit"
+  "title": 123,
+  "details": null,
+  "maximumAttendees": 1,
 }
 
 ###
 ### Criar o participante no evento
-POST http://localhost:3000/events/6b440ae6-860e-4774-852f-011eb70f2399/attendees
+POST http://localhost:3333/events/6b440ae6-860e-4774-852f-011eb70f2399/attendees
 Content-Type: application/json
 
 {
