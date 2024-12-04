@@ -1,0 +1,16 @@
+<ion-header>
+  <ion-toolbar (click)="goBack()"> <!-- Faz todo o cabeçalho clicável -->
+    <ion-title>Mapa</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div id="map" style="height: 100%;"></div> <!-- Contêiner do mapa -->
+
+  <!-- Botão para abrir o Waze com a API -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="primary" (click)="navigateToSalonUsingWazeAPI()">
+      <ion-icon name="navigate"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

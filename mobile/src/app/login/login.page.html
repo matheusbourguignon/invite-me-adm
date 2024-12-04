@@ -1,0 +1,68 @@
+<ion-content fullscreen class="custom-content centered-content">
+  <ion-list class="custom-list gray-container">
+    <div class="logo-container">
+      <img src="/assets/img/invite-me.png" alt="Logo" class="logo" />
+    </div>
+
+    <ion-item class="input-item">
+      <ion-input 
+        [(ngModel)]="email" 
+        label="Email" 
+        label-placement="floating" 
+        fill="outline" 
+        placeholder="Digite seu Email" 
+        type="email"
+        required
+        (ngModelChange)="emailInvalid = false">
+      </ion-input>
+    </ion-item>
+
+    <ion-item *ngIf="emailInvalid">
+      <ion-label color="danger">Por favor, insira um email válido.</ion-label>
+    </ion-item>
+
+    <ion-item class="input-item">
+      <ion-input 
+        [(ngModel)]="password" 
+        label="Senha" 
+        label-placement="floating" 
+        fill="outline" 
+        placeholder="Digite sua Senha" 
+        [type]="showPassword ? 'text' : 'password'" 
+        required
+        (ngModelChange)="passwordInvalid = false">
+      </ion-input>
+      <ion-icon 
+        [name]="showPassword ? 'eye' : 'eye-off'"  
+        (click)="showPassword = !showPassword" 
+        slot="end" 
+        class="password-icon"></ion-icon>
+    </ion-item>
+
+    <ion-item *ngIf="passwordInvalid">
+      <ion-label color="danger">A senha deve ter pelo menos 6 caracteres.</ion-label>
+    </ion-item>
+
+
+    <!-- Botão de login -->
+    <ion-button 
+      expand="block" 
+      (click)="login()" 
+      class="custom-login-button">Entrar
+    </ion-button>
+
+    <div class="link-container">
+      <ion-label>
+        <a routerLink="/create-account" class="custom-link">Criar uma conta</a>
+      </ion-label>
+    </div>
+
+    <ion-button 
+      expand="block" 
+      (click)="loginWithGoogle()" 
+      class="custom-login-button">
+      <ion-icon slot="start" name="logo-google" class="white-icon"></ion-icon>
+      Entrar com Google
+    </ion-button>
+  </ion-list>
+</ion-content>

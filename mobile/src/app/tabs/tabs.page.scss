@@ -1,0 +1,39 @@
+/* Estilizando os tabs */
+ion-tabs {
+    background-color: transparent; /* Remove fundo padrão dos tabs */
+}
+
+/* Estilizando o tab bar */
+ion-tab-bar {
+    background-color: #4bb874; /* Cor de fundo do tab bar */
+    width: 100%; /* Largura total */
+    height: 56px; /* Altura do tab bar (ajuste conforme necessário) */
+    display: flex; /* Flexbox para alinhamento */
+    justify-content: space-around; /* Espaçamento uniforme entre os botões */
+}
+
+/* Estilizando os botões de tab */
+ion-tab-button {
+    --background: transparent; /* Remove fundo dos botões */
+    color: #ffffff; /* Cor padrão do texto dos rótulos */
+}
+
+/* Efeito hover nos ícones */
+ion-tab-button:hover ion-icon {
+    color: #379b5d; /* Cor dos ícones ao passar o mouse */
+}
+
+/* Efeito hover no texto do ion-label */
+ion-tab-button:hover ion-label {
+    color: #379b5d; /* Cor do texto ao passar o mouse */
+}
+
+/* Cor dos ícones quando a tab está ativa */
+ion-tab-button[aria-selected="true"] ion-icon {
+    color: #379b5d; /* Cor dos ícones quando a tab está ativa */
+}
+
+/* Cor do texto quando a tab está ativa */
+ion-tab-button[aria-selected="true"] {
+    color: #379b5d; /* Cor do texto quando a tab está ativa */
+}

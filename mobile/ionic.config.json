@@ -1,0 +1,7 @@
+{
+  "name": "invite-me",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

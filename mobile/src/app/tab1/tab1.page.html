@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Meus Convites</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="light">
+  <ion-list inset="true">
+    <ion-item *ngFor="let invite of invites" (click)="selectInvite(invite)">
+      <ion-icon color="success" slot="start" [icon]="calendar" size="large"></ion-icon>
+      <ion-label>
+        <ion-text>{{ invite.title }}</ion-text><br />
+        <ion-text>{{ invite.date }}</ion-text><br />
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <!-- Exibir detalhes do convite selecionado -->
+  <ion-card *ngIf="selectedInvite">
+    <ion-card-header>
+      <ion-card-title>{{ selectedInvite.title }}</ion-card-title>
+      <ion-card-subtitle>Data: {{ selectedInvite.date }} - Horário: {{ selectedInvite.time }}</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <p>{{ selectedInvite.description }}</p>
+      <ion-button (click)="goToMaps()" class="custom-login-button">Ver Localização</ion-button> 
+    </ion-card-content>
+  </ion-card>
+</ion-content>

@@ -1,0 +1,69 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button (click)="logout()" class="logout-button">
+        <ion-icon name="log-out-outline"></ion-icon> <!-- Ícone de logout -->
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen class="custom-content centered-content">
+  <ion-list class="custom-list custom-content">
+    <!-- Avatar do usuário -->
+    <ion-item lines="none" style="justify-content: center;">
+      <ion-avatar class="profile-avatar">
+        <img *ngIf="profilePicture" [src]="profilePicture" alt="Foto de Perfil" class="profile-image" (click)="presentActionSheet()"/>
+        <ion-icon *ngIf="!profilePicture" name="person" class="profile-icon" (click)="presentActionSheet()"></ion-icon>
+      </ion-avatar>
+    </ion-item>
+
+    <!-- Campos para editar dados -->
+    <ion-item class="input-item">
+      <ion-input [(ngModel)]="name" label="Nome" label-placement="floating" fill="outline"
+        placeholder="Digite o seu Nome"></ion-input>
+    </ion-item>
+
+    <ion-item class="input-item">
+      <ion-input [(ngModel)]="email" label="Email" label-placement="floating" fill="outline"
+        placeholder="Digite seu Email" type="email"></ion-input>
+    </ion-item>
+
+    <ion-item class="input-item">
+      <ion-input [(ngModel)]="birthDate" label="Data de Nascimento" label-placement="floating" fill="outline"
+        placeholder="DD/MM/AAAA" (ionInput)="formatDate()" maxlength="10" required></ion-input>
+    </ion-item>
+
+    <ion-item class="input-item">
+      <ion-input [(ngModel)]="cellphone" name="cellphone" label="Celular" label-placement="floating" fill="outline" placeholder="Digite seu Celular" type="tel" (input)="formatPhone()" maxlength="15" required></ion-input>
+    </ion-item>
+    
+    <!-- Botão para salvar alterações -->
+    <ion-button expand="block" (click)="changeUserData()" class="custom-save-button">Salvar Alterações</ion-button>
+    
+    <!-- Mensagem de dados atualizados -->
+    <ion-text *ngIf="isDataUpdated" color="success" class="data-updated-message">
+      Dados atualizados com sucesso!
+    </ion-text>
+  </ion-list>
+
+  <!-- Modal para visualização de imagem ampliada -->
+  <ion-modal [isOpen]="isZoomedImageModalOpen" (didDismiss)="closeZoomedImage()" class="zoomed-image-modal">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Imagem</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="closeZoomedImage()">Fechar</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content>
+        <img [src]="profilePicture" alt="Imagem Ampliada" class="zoomed-image" />
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+  
+  <!-- Input oculto para alteração de imagem -->
+  <input type="file" id="fileInput" style="display: none;" (change)="handleImageChange($event)" />
+</ion-content>

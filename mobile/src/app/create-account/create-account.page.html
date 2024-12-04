@@ -1,0 +1,57 @@
+<ion-content fullscreen class="custom-content centered-content">
+  <ion-list class="custom-list gray-container">
+    <div class="logo-container">
+      <img src="/assets/img/invite-me.png" alt="Logo" class="logo" />
+    </div>
+
+    <form #form="ngForm" (ngSubmit)="createAccount(form)" novalidate>
+      <ion-item class="input-item">
+        <ion-input [(ngModel)]="name" name="name" label="Nome" label-placement="floating" fill="outline" placeholder="Digite o seu Nome" required></ion-input>
+      </ion-item>
+
+      <ion-item class="input-item">
+        <ion-input [(ngModel)]="email" name="email" label="Email" label-placement="floating" fill="outline" placeholder="Digite seu Email" type="email" required></ion-input>
+      </ion-item>
+
+      <ion-item class="input-item">
+        <ion-input [(ngModel)]="birthDate" name="date" label="Data de Nascimento" label-placement="floating" fill="outline" placeholder="DD/MM/AAAA" (input)="formatDate()" required></ion-input>
+      </ion-item>
+
+      <ion-item class="input-item">
+        <ion-input [(ngModel)]="cellphone" name="cellphone" label="Celular" label-placement="floating" fill="outline" placeholder="Digite seu Celular" type="tel" (input)="formatPhone()" required></ion-input>
+      </ion-item>
+
+      <ion-item class="input-item">
+        <ion-input 
+          [(ngModel)]="password" 
+          name="password" 
+          label="Senha" 
+          label-placement="floating" 
+          fill="outline" 
+          placeholder="Digite sua Senha" 
+          [type]="showPassword ? 'text' : 'password'" 
+          required>
+        </ion-input>
+        <ion-icon 
+          slot="end" 
+          [name]="showPassword ? 'eye' : 'eye-off'" 
+          (click)="togglePasswordVisibility()">
+        </ion-icon>
+      </ion-item>
+
+      <ion-button expand="block" type="submit" class="custom-login-button">Criar Conta</ion-button>
+
+      <!-- Botão Criar Conta com Google com o mesmo estilo -->
+      <ion-button expand="block" (click)="createAccountWithGoogle()" class="custom-login-button">
+        <ion-icon slot="start" name="logo-google" class="white-icon"></ion-icon>
+        Criar Conta com Google
+      </ion-button>
+    </form>
+    
+    <div class="link-container">
+      <ion-label>
+        <a routerLink="/login" class="custom-link">Já tem uma conta? Faça login</a>
+      </ion-label>
+    </div>
+  </ion-list>
+</ion-content>

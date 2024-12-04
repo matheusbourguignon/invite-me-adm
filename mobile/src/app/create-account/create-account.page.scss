@@ -1,0 +1,136 @@
+ion-content {
+    --background: #f2f2f2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.gray-container {
+    background-color: rgba(200, 200, 200, 0.5);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 400px;
+}
+
+ion-toolbar {
+    --background: #4bb874;
+}
+
+ion-title {
+    color: white;
+}
+
+.logo-container {
+    display: flex;
+    justify-content: center;
+}
+
+.logo {
+    max-width: 50%;
+    height: auto;
+    margin-right: 50px;
+}
+
+.white-icon {
+    color: white; /* Define a cor do ícone como branca */
+    font-size: 20px; /* Ajuste o tamanho do ícone conforme necessário */
+    margin-right: 8px; /* Espaçamento entre o ícone e o texto */
+}
+
+
+.centered-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: 0 20px;
+}
+
+.custom-list {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.custom-list ion-item {
+    --border-color: transparent;
+    border-bottom: none;
+    --background: transparent;
+    border-radius: 8px;
+}
+
+.custom-list ion-item:after {
+    display: none;
+}
+
+.custom-list ion-item:hover {
+    --background: transparent;
+}
+
+ion-label {
+    font-weight: bold;
+    font-size: 16px;
+    color: #000000;
+}
+
+ion-input {
+    margin-top: 25px;
+    --background: #ffffff;
+    --color: #000000;
+    z-index: 1;
+    position: relative;
+}
+
+.input-item {
+    position: relative;
+}
+
+ion-icon {
+    position: absolute;
+    right: 25px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--ion-color-medium);
+    cursor: pointer;
+    z-index: 2;
+}
+
+.custom-login-button {
+    --background: #4bb874;
+    --color: #ffffff;
+    border-radius: 8px;
+    padding: 12px 16px;
+    text-transform: none;
+}
+
+.custom-login-button:hover {
+    --background: #45aa6c;
+    transform: scale(1.05);
+    transition: transform 0.2s ease;
+}
+
+.link-container {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.custom-link {
+  color: #4bb874;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.custom-link:hover {
+  text-decoration: underline;
+}
+
+.forgot-password {
+  text-align: right;
+  margin: 5px 15px 15px 0;
+  display: block;
+}

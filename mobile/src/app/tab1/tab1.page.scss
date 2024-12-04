@@ -1,0 +1,46 @@
+/* Estilizando os itens da lista */
+ion-toolbar {
+    --background: #4bb874; /* Cor do toolbar */
+  }
+  
+  ion-title {
+    color: white; /* Cor do texto do título */
+  }
+  
+  ion-item {
+    --background: transparent; /* Remove fundo dos itens da lista */
+  }
+  
+  /* Estilizando o texto dos convites */
+  ion-label ion-text {
+    font-size: 16px; /* Tamanho da fonte para o título */
+    font-weight: bold; /* Negrito para o título */
+  }
+  
+  /* Estilizando a data do convite */
+  ion-label ion-text:nth-child(2) {
+    font-size: 14px; /* Tamanho da fonte para a data */
+    color: #757575; /* Cor da data */
+  }
+  
+  /* Estilizando o botão "Ver Localização" */
+  .custom-login-button {
+    --background: #4bb874;
+    --color: #ffffff;
+    border-radius: 8px;
+    padding: 12px 16px;
+    text-transform: none;
+}
+
+.custom-login-button:hover {
+    --background: #45aa6c;
+    transform: scale(1.05);
+    transition: transform 0.2s ease;
+}
+  
+  /* Estilizando a nota no final do item */
+  ion-note {
+    color: #4bb874; /* Cor da nota */
+    font-weight: bold; /* Negrito para a nota */
+  }
+  

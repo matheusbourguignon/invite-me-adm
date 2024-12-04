@@ -1,0 +1,14 @@
+ion-toolbar {
+  --background: #4bb874;
+}
+
+ion-title {
+  color: white;
+}
+
+/* src/app/maps/maps.page.scss */
+#map {
+    height: 100vh; /* altura total da viewport */
+    width: 100%;   /* largura total */
+  }
+  
