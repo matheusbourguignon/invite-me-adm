@@ -18,7 +18,17 @@ Content-Type: application/json
   "email": "matheusmbl21@gmail.com"
 }
 
+### Create Account
+POST http://localhost:3333/create-account
+Content-Type: application/json
 
+{
+  "name": "John Doe",
+  "email": "johndoe@example.com",
+  "password": "securepassword123",
+  "cellphone": "21982482673",
+  "birthdate": "1998-04-16"
+}
 
 ###
 POST http://localhost:3333/accounts

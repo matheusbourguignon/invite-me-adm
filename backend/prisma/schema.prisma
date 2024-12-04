@@ -45,3 +45,14 @@ model CheckIn {
   @@map("check_ins")
 }
 
+model Account {
+  id        String   @id @default(uuid()) // UUID como identificador único
+  name      String // Nome do usuário
+  email     String   @unique // Email único
+  password  String // Senha hashada
+  cellphone String // Celular do usuário (tamanho ajustável)
+  birthdate DateTime // Data de nascimento
+  createdAt DateTime @default(now()) // Data de criação
+  updatedAt DateTime @updatedAt // Data da última atualização
+    @@map("accounts")
+}
