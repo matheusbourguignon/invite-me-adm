@@ -13,6 +13,7 @@ import { getEventAttendees } from "./routes/get-event-attendees";
 import { errorHandler } from "./error-handler";
 import { createAccount } from "./routes/create-account";
 import { login } from "./routes/login";
+import { updateAccount } from "./routes/update-account";
 
 
 export const app = fastify()
@@ -42,8 +43,9 @@ app.register(fastifySwaggerUi, {
 app.setValidatorCompiler(validatorCompiler);
 app.setSerializerCompiler(serializerCompiler);
 
-app.register(login)
 app.register(createAccount)
+app.register(updateAccount); 
+app.register(login)
 app.register(createEvent)
 app.register(registerForEvent)
 app.register(getEvent)

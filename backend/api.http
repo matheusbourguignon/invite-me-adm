@@ -3,14 +3,14 @@ POST http://localhost:3333/events
 Content-Type: application/json
 
 {
-  "title": 123,
-  "details": null,
-  "maximumAttendees": 1,
+  "title": "Romario e Juliana",
+  "details": "casamento",
+  "maximumAttendees": 150
 }
 
 ###
 ### Criar o participante no evento
-POST http://localhost:3333/events/6b440ae6-860e-4774-852f-011eb70f2399/attendees
+POST http://localhost:3333/events/7e0d5d80-33ab-430a-8e2e-292a68d543dd/attendees
 Content-Type: application/json
 
 {
@@ -40,14 +40,19 @@ Content-Type: application/json
 }
 
 
-###
-POST http://localhost:3333/accounts
+### Atualizar os dados de um usuário existente
+PUT http://localhost:3333/update-account
 Content-Type: application/json
 
 {
-  "email": "joao.silva@example.com",
-  "password": "senha123",
+  "userId": "7534270e-69a0-45b1-b33b-b4b67d17e65c",
+  "name": "Johnathan Doe", 
+  "email": "johnathandoe@example.com", 
+  "birthdate": "1990-02-02",
+  "cellphone": "0987654321",
+  "password": "newstrongpassword"
 }
+
 
 
 ###
@@ -63,7 +68,7 @@ GET http://localhost:3333/attendees/1/badge
 ###
 
 ### Verifica a entrada do usuário 
-GET http://localhost:3333/attendees/2/check-in
+GET http://localhost:3333/attendees/1/check-in
 
 
 ###
