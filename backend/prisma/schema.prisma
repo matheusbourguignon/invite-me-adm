@@ -54,5 +54,21 @@ model Account {
   birthdate DateTime // Data de nascimento
   createdAt DateTime @default(now()) // Data de criação
   updatedAt DateTime @updatedAt // Data da última atualização
+
+  logins    Login[]  // Relacionamento com a tabela Login
+
     @@map("accounts")
+}
+
+// Tabela Login
+model Login {
+  id        Int      @id @default(autoincrement())
+  email     String   // Email do login
+  password  String   // Senha do login
+  createdAt DateTime @default(now()) // Data do login
+  accountId String  // Relacionamento com a tabela Account
+  
+  account   Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  @@map("logins")
 }
