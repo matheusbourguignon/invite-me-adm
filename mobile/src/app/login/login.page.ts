@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../services/auth.service';
 import { NavController } from '@ionic/angular'; // Se você estiver usando NavController para navegação
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -34,13 +34,13 @@ export class LoginPage {
     }
   
     // Chama o serviço de autenticação com email e senha
-    this.authService.login(this.email, this.password)
-      .then((response) => {
+    this.authService.login(this.email, this.password).subscribe({
+      next: (response) => {
         console.log('Login bem-sucedido', response);
         // Redireciona para a página principal
         this.navCtrl.navigateRoot('/tabs');
-      })
-      .catch((error) => {
+      },
+      error: (error) => {
         console.error('Erro ao fazer login', error);
         // Verificar se o erro é uma instância de Error
         if (error instanceof Error) {
@@ -48,13 +48,14 @@ export class LoginPage {
         } else {
           alert('Erro desconhecido ao fazer login');
         }
-      });
+      }
+    });
   }
 
   // Método para login com Google
   async loginWithGoogle() {
     try {
-      const user = await this.authService.loginWithGoogle();
+      const user = await this.authService.loginWithGoogle().toPromise();
       console.log('Login com Google bem-sucedido', user);
 
       // Navega para a página inicial após o login com Google

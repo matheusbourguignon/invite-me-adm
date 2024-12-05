@@ -15,18 +15,18 @@ const routes: Routes = [
     path: 'tabs',
     loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
   },
-  {
-    path: 'reset-password',
-    loadChildren: () => import('./reset-password/reset-password.module').then(m => m.ResetPasswordPageModule)
-  },
+  // {
+  //   path: 'reset-password',
+  //   loadChildren: () => import('./reset-password/reset-password.module').then(m => m.ResetPasswordPageModule)
+  // },
   {
     path: 'create-account',
     loadChildren: () => import('./create-account/create-account.module').then(m => m.CreateAccountPageModule)
   },
-  {
-    path: 'maps',
-    loadChildren: () => import('./maps/maps.module').then(m => m.MapsPageModule)
-  },
+  // {
+  //   path: 'maps',
+  //   loadChildren: () => import('./maps/maps.module').then(m => m.MapsPageModule)
+  // },
   {
     path: 'presentation',
     loadChildren: () => import('./presentation/presentation.module').then( m => m.PresentationPageModule)

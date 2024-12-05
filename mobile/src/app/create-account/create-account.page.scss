@@ -19,6 +19,19 @@ ion-toolbar {
     --background: #4bb874;
 }
 
+.label-item{
+    color: #4bb874;
+}
+
+.success-message {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 20px;
+    color: #4bb874; /* Cor verde para indicar sucesso */
+  }
+  
+
 ion-title {
     color: white;
 }

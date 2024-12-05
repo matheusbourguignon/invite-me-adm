@@ -4,54 +4,63 @@
       <img src="/assets/img/invite-me.png" alt="Logo" class="logo" />
     </div>
 
-    <form #form="ngForm" (ngSubmit)="createAccount(form)" novalidate>
+    <form [formGroup]="createAccountForm" (ngSubmit)="onSubmit()">
+      <!-- Name -->
       <ion-item class="input-item">
-        <ion-input [(ngModel)]="name" name="name" label="Nome" label-placement="floating" fill="outline" placeholder="Digite o seu Nome" required></ion-input>
+        <ion-label position="floating" class="label-item">Nome</ion-label>
+        <ion-input formControlName="name" required></ion-input>
+      </ion-item>
+      <ion-note *ngIf="createAccountForm.get('name')?.invalid && createAccountForm.get('name')?.touched">
+        Name must be at least 2 characters long.
+      </ion-note>
+
+      <!-- Email -->
+      <ion-item class="input-item">
+        <ion-label position="floating" class="label-item">Email</ion-label>
+        <ion-input type="email" formControlName="email" required></ion-input>
+      </ion-item>
+      <ion-note *ngIf="createAccountForm.get('email')?.invalid && createAccountForm.get('email')?.touched">
+        Invalid email format.
+      </ion-note>
+
+      <!-- Birthdate -->
+      <ion-item class="input-item">
+        <ion-label position="floating" class="label-item">Data de Nascimento</ion-label>
+        <ion-input type="date" formControlName="birthdate" required></ion-input>
       </ion-item>
 
-      <ion-item class="input-item">
-        <ion-input [(ngModel)]="email" name="email" label="Email" label-placement="floating" fill="outline" placeholder="Digite seu Email" type="email" required></ion-input>
+      <!-- Phone Number -->
+      <ion-item>
+        <ion-label position="floating" class="label-item">Celular</ion-label>
+        <ion-input type="tel" formControlName="cellphone" required pattern="^[0-9]{10,15}$"></ion-input>
       </ion-item>
+      <ion-note *ngIf="createAccountForm.get('cellphone')?.invalid && createAccountForm.get('cellphone')?.touched">
+        Phone number must be numeric and 10-15 digits long.
+      </ion-note>
 
-      <ion-item class="input-item">
-        <ion-input [(ngModel)]="birthDate" name="date" label="Data de Nascimento" label-placement="floating" fill="outline" placeholder="DD/MM/AAAA" (input)="formatDate()" required></ion-input>
+      <!-- Password -->
+      <ion-item>
+        <ion-label position="floating" class="label-item">Senha</ion-label>
+        <ion-input type="password" formControlName="password" required></ion-input>
       </ion-item>
+      <ion-note *ngIf="createAccountForm.get('password')?.invalid && createAccountForm.get('password')?.touched">
+        Password must be at least 6 characters long.
+      </ion-note>
 
-      <ion-item class="input-item">
-        <ion-input [(ngModel)]="cellphone" name="cellphone" label="Celular" label-placement="floating" fill="outline" placeholder="Digite seu Celular" type="tel" (input)="formatPhone()" required></ion-input>
-      </ion-item>
-
-      <ion-item class="input-item">
-        <ion-input 
-          [(ngModel)]="password" 
-          name="password" 
-          label="Senha" 
-          label-placement="floating" 
-          fill="outline" 
-          placeholder="Digite sua Senha" 
-          [type]="showPassword ? 'text' : 'password'" 
-          required>
-        </ion-input>
-        <ion-icon 
-          slot="end" 
-          [name]="showPassword ? 'eye' : 'eye-off'" 
-          (click)="togglePasswordVisibility()">
-        </ion-icon>
-      </ion-item>
-
-      <ion-button expand="block" type="submit" class="custom-login-button">Criar Conta</ion-button>
-
-      <!-- Botão Criar Conta com Google com o mesmo estilo -->
-      <ion-button expand="block" (click)="createAccountWithGoogle()" class="custom-login-button">
-        <ion-icon slot="start" name="logo-google" class="white-icon"></ion-icon>
-        Criar Conta com Google
-      </ion-button>
+      <!-- Submit Button -->
+      <ion-button expand="block" type="submit" [disabled]="createAccountForm.invalid" class="custom-login-button">Criar Conta</ion-button>
     </form>
-    
+
     <div class="link-container">
       <ion-label>
         <a routerLink="/login" class="custom-link">Já tem uma conta? Faça login</a>
       </ion-label>
     </div>
   </ion-list>
+
+    <!-- Mensagem de Sucesso -->
+    <div *ngIf="showSuccessMessage" class="success-message">
+      Cadastro realizado com sucesso!
+    </div>
+
 </ion-content>

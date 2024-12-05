@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ActionSheetController } from '@ionic/angular';
 import { AuthService } from '../services/auth.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tab3',
@@ -126,13 +126,17 @@ export class Tab3Page implements OnInit {
   }
 
   logout() {
-    this.authService.logout().then(() => {
-      console.log('Usuário deslogado com sucesso');
-      this.router.navigate(['/login']);
-    }).catch(error => {
-      console.error('Erro ao deslogar:', error);
+    this.authService.logout().subscribe({
+      next: () => {
+        console.log('Usuário deslogado com sucesso');
+        this.router.navigate(['/login']);
+      },
+      error: (error) => {
+        console.error('Erro ao deslogar:', error);
+      }
     });
   }
+  
 
   // Função para exibir a mensagem de dados atualizados
   showUpdatedMessage() {
