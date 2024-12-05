@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { NavController } from '@ionic/angular'; // Se você estiver usando NavController para navegação
-import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
+import { AuthService } from '../services/auth.service'; // Importe o AuthService
 
 @Component({
   selector: 'app-login',
@@ -8,76 +8,38 @@ import { AuthService } from '../services/auth.service';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage {
-  email: string = ''; // Inicializa como string vazia
-  password: string = ''; // Inicializa como string vazia
-  emailInvalid: boolean = false;
-  passwordInvalid: boolean = false;
-  showPassword: boolean = false; // Adiciona a propriedade showPassword
+  email: string = '';
+  password: string = '';
+  showPassword: boolean = false;  // Variável para controle de visibilidade da senha
+  passwordInvalid: boolean = false;  // Controle de validação da senha
+  showSuccessMessage: boolean = false;  // Variável para mostrar a mensagem de sucesso
 
-  constructor(private authService: AuthService, private navCtrl: NavController) {}
+  constructor(private router: Router, private authService: AuthService) {}
 
-  login() {
-    this.emailInvalid = false;
-    this.passwordInvalid = false;
-  
-    // Validação do email e senha
-    if (!this.validateEmail(this.email)) {
-      this.emailInvalid = true;
-    }
-  
-    if (!this.validatePassword(this.password)) {
-      this.passwordInvalid = true;
-    }
-  
-    if (this.emailInvalid || this.passwordInvalid) {
-      return;
-    }
-  
-    // Chama o serviço de autenticação com email e senha
-    this.authService.login(this.email, this.password).subscribe({
-      next: (response) => {
-        console.log('Login bem-sucedido', response);
-        // Redireciona para a página principal
-        this.navCtrl.navigateRoot('/tabs');
-      },
-      error: (error) => {
-        console.error('Erro ao fazer login', error);
-        // Verificar se o erro é uma instância de Error
-        if (error instanceof Error) {
-          alert('Erro ao fazer login: ' + error.message);
-        } else {
-          alert('Erro desconhecido ao fazer login');
-        }
-      }
-    });
-  }
+  /**
+   * Método para autenticação do usuário
+   */
+  async login() {
+    if (this.email && this.password) {
+      try {
+        // Envia a requisição de login para o backend
+        const response = await this.authService.login(this.email, this.password).toPromise();
 
-  // Método para login com Google
-  async loginWithGoogle() {
-    try {
-      const user = await this.authService.loginWithGoogle().toPromise();
-      console.log('Login com Google bem-sucedido', user);
+        console.log('Login realizado com sucesso!', response);
 
-      // Navega para a página inicial após o login com Google
-      this.navCtrl.navigateRoot('/tabs');
-    } catch (error) {
-      console.error('Erro ao fazer login com Google', error);
-      // Verificar se o erro é uma instância de Error
-      if (error instanceof Error) {
-        alert('Erro ao fazer login com Google: ' + error.message);
-      } else {
-        alert('Erro desconhecido ao fazer login com Google');
+        // Salva o token ou informações do usuário no localStorage, se necessário
+        localStorage.setItem('userToken', response.token);  // Supondo que o token esteja na resposta
+
+        // Exibe a mensagem de sucesso
+        this.showSuccessMessage = true;
+
+        // Redireciona para as tabs após o login
+        this.router.navigate(['/tabs']);
+      } catch (error) {
+        console.error('Erro ao fazer login:', error);
+        alert('Erro ao fazer login. Verifique suas credenciais.');
+        this.showSuccessMessage = false; // Caso ocorra erro, a mensagem de sucesso será desativada
       }
     }
-  }
-
-  // Funções de validação
-  validateEmail(email: string): boolean {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  }
-
-  validatePassword(password: string): boolean {
-    return password.length >= 6;
   }
 }
