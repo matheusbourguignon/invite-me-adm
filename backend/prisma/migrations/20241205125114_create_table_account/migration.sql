@@ -4,7 +4,7 @@ CREATE TABLE "accounts" (
     "name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
-    "cellphone" TEXT NOT NULL,
+    "cellphone" BIGINT NOT NULL,
     "birthdate" DATETIME NOT NULL,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" DATETIME NOT NULL

@@ -50,7 +50,7 @@ model Account {
   name      String // Nome do usuário
   email     String   @unique // Email único
   password  String // Senha hashada
-  cellphone String // Celular do usuário (tamanho ajustável)
+  cellphone BigInt  // Celular do usuário (tamanho ajustável)
   birthdate DateTime // Data de nascimento
   createdAt DateTime @default(now()) // Data de criação
   updatedAt DateTime @updatedAt // Data da última atualização

@@ -1,8 +1,8 @@
+import bcrypt from 'bcryptjs'; // Para criptografar a senha
+import { FastifyInstance } from "fastify"
 import { ZodTypeProvider } from "fastify-type-provider-zod"
 import { z } from "zod"
 import { prisma } from "../lib/prisma"
-import { FastifyInstance } from "fastify"
-import bcrypt from 'bcryptjs' // Para criptografar a senha
 import { BadRequest } from "./_errors/bad-request"
 
 export async function createAccount(app: FastifyInstance) {
@@ -16,7 +16,11 @@ export async function createAccount(app: FastifyInstance) {
                     name: z.string().min(2, "Name must be at least 2 characters long"),
                     email: z.string().email("Invalid email format"),
                     birthdate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Birthdate must be in the format YYYY-MM-DD"),
-                    cellphone: z.string().min(10, "Phone number must be at least 10 digits").max(15, "Phone number is too long"),
+                    // Alteração para celular como BigInt (número inteiro grande)
+                    cellphone: z.string()
+                        .min(10, "Phone number must be at least 10 digits")
+                        .max(15, "Phone number is too long")
+                        .regex(/^\d+$/, "Phone number must be numeric"), // Verifica se é apenas numérico
                     password: z.string().min(6, "Password must be at least 6 characters long"),
                 }),
                 response: {
@@ -44,6 +48,13 @@ export async function createAccount(app: FastifyInstance) {
                     throw new BadRequest('An account with this email already exists.')
                 }
 
+                // Converte o número do celular de string para BigInt
+                const cellphoneBigInt = BigInt(cellphone)
+
+                if (isNaN(Number(cellphoneBigInt))) {
+                    throw new BadRequest('Invalid phone number.')
+                }
+
                 // Criptografar a senha
                 const hashedPassword = await bcrypt.hash(password, 10)
 
@@ -53,7 +64,7 @@ export async function createAccount(app: FastifyInstance) {
                         name,
                         email,
                         birthdate: new Date(birthdate), // Converter a string para Date
-                        cellphone, // A variável cellphone já está como string
+                        cellphone: cellphoneBigInt, // Salvar como BigInt
                         password: hashedPassword, // Senha criptografada
                     },
                 })
