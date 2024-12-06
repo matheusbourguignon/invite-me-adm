@@ -11,6 +11,8 @@ import { AuthService } from '../services/auth.service';
 export class CreateAccountPage {
   createAccountForm: FormGroup;
   showSuccessMessage: boolean = false; // Variável para controlar a exibição da mensagem de sucesso
+  showPassword: boolean = false; // Controle para mostrar/ocultar senha
+  passwordInvalid: boolean = false;
 
   constructor(
     private fb: FormBuilder,

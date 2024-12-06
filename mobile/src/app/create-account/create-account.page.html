@@ -7,8 +7,14 @@
     <form [formGroup]="createAccountForm" (ngSubmit)="onSubmit()">
       <!-- Name -->
       <ion-item class="input-item">
-        <ion-label position="floating" class="label-item">Nome</ion-label>
-        <ion-input formControlName="name" required></ion-input>
+        <ion-input 
+          label="Nome" 
+          label-placement="floating" 
+          fill="outline" 
+          placeholder="Enter your name" 
+          formControlName="name" 
+          required>
+        </ion-input>
       </ion-item>
       <ion-note *ngIf="createAccountForm.get('name')?.invalid && createAccountForm.get('name')?.touched">
         Name must be at least 2 characters long.
@@ -16,8 +22,15 @@
 
       <!-- Email -->
       <ion-item class="input-item">
-        <ion-label position="floating" class="label-item">Email</ion-label>
-        <ion-input type="email" formControlName="email" required></ion-input>
+        <ion-input 
+          label="Email" 
+          label-placement="floating" 
+          fill="outline" 
+          placeholder="Enter your email" 
+          type="email" 
+          formControlName="email" 
+          required>
+        </ion-input>
       </ion-item>
       <ion-note *ngIf="createAccountForm.get('email')?.invalid && createAccountForm.get('email')?.touched">
         Invalid email format.
@@ -25,24 +38,52 @@
 
       <!-- Birthdate -->
       <ion-item class="input-item">
-        <ion-label position="floating" class="label-item">Data de Nascimento</ion-label>
-        <ion-input type="date" formControlName="birthdate" required></ion-input>
+        <ion-input 
+          label="Data de Nascimento" 
+          label-placement="floating" 
+          fill="outline" 
+          placeholder="Enter your birthdate" 
+          type="date" 
+          formControlName="birthdate" 
+          required>
+        </ion-input>
       </ion-item>
 
       <!-- Phone Number -->
-      <ion-item>
-        <ion-label position="floating" class="label-item">Celular</ion-label>
-        <ion-input type="tel" formControlName="cellphone" required pattern="^[0-9]{10,15}$"></ion-input>
+      <ion-item class="input-item">
+        <ion-input 
+          label="Celular" 
+          label-placement="floating" 
+          fill="outline" 
+          placeholder="Enter your phone number" 
+          type="tel" 
+          formControlName="cellphone" 
+          required 
+          pattern="^[0-9]{10,15}$">
+        </ion-input>
       </ion-item>
       <ion-note *ngIf="createAccountForm.get('cellphone')?.invalid && createAccountForm.get('cellphone')?.touched">
         Phone number must be numeric and 10-15 digits long.
       </ion-note>
 
       <!-- Password -->
-      <ion-item>
-        <ion-label position="floating" class="label-item">Senha</ion-label>
-        <ion-input type="password" formControlName="password" required></ion-input>
+      <ion-item class="input-item">
+        <ion-input 
+          label="Senha" 
+          label-placement="floating" 
+          fill="outline" 
+          placeholder="Digite sua Senha" 
+          [type]="showPassword ? 'text' : 'password'" 
+          formControlName="password" 
+          required>
+        </ion-input>
+        <ion-icon 
+          [name]="showPassword ? 'eye' : 'eye-off'"  
+          (click)="showPassword = !showPassword" 
+          slot="end" 
+          class="password-icon"></ion-icon>
       </ion-item>
+      
       <ion-note *ngIf="createAccountForm.get('password')?.invalid && createAccountForm.get('password')?.touched">
         Password must be at least 6 characters long.
       </ion-note>
@@ -58,9 +99,8 @@
     </div>
   </ion-list>
 
-    <!-- Mensagem de Sucesso -->
-    <div *ngIf="showSuccessMessage" class="success-message">
-      Cadastro realizado com sucesso!
-    </div>
-
+  <!-- Mensagem de Sucesso -->
+  <div *ngIf="showSuccessMessage" class="success-message">
+    Cadastro realizado com sucesso!
+  </div>
 </ion-content>
