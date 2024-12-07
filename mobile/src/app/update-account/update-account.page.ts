@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ActionSheetController } from '@ionic/angular';
 import { AuthService } from '../services/auth.service';
-import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-edit-profile',
-  templateUrl: './edit-profile.page.html',
-  styleUrls: ['./edit-profile.page.scss'],
+  selector: 'app-update-account',
+  templateUrl: './update-account.page.html',
+  styleUrls: ['./update-account.page.scss'],
 })
-export class EditProfilePage implements OnInit {
+export class UpdateAccountPage implements OnInit {
 
   profilePicture: string | undefined;
   name: string | undefined;
