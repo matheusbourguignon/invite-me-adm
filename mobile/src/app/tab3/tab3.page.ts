@@ -35,7 +35,9 @@ export class Tab3Page implements OnInit {
       next: (data) => {
         this.name = data.name;
         this.email = data.email;
-        this.cellphone = data.cellphone;
+        
+        // Formata o número de celular
+        this.cellphone = this.formatPhoneNumber(data.cellphone);
         
         // Usa o DatePipe para formatar a data no formato dd/MM/yyyy
         this.birthDate = this.datePipe.transform(data.birthdate, 'dd/MM/yyyy')!;
@@ -91,19 +93,17 @@ export class Tab3Page implements OnInit {
     }
   }
 
-  formatPhone() {
-    if (this.cellphone) {
-      let formattedPhone = this.cellphone.replace(/\D/g, '');
-      if (formattedPhone.length > 10) {
-        formattedPhone = formattedPhone.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
-      } else if (formattedPhone.length > 5) {
-        formattedPhone = formattedPhone.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3');
-      } else if (formattedPhone.length > 2) {
-        formattedPhone = formattedPhone.replace(/(\d{2})(\d{0,4})/, '($1) $2');
+  // Função para formatar o celular para o formato (XX) XXXXX-XXXX
+  formatPhoneNumber(phone: string): string {
+    if (phone) {
+      let phoneOnlyDigits = phone.replace(/\D/g, '');  // Remove caracteres não numéricos
+      if (phoneOnlyDigits.length === 11) {  // Verifica se tem 11 dígitos
+        return phoneOnlyDigits.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+      } else {
+        return phoneOnlyDigits;  // Retorna o número sem formatação caso não tenha 11 dígitos
       }
-
-      this.cellphone = formattedPhone;
     }
+    return phone;  // Caso o telefone seja vazio ou indefinido, retorna o valor original
   }
 
   // Função para exibir a mensagem de dados atualizados
