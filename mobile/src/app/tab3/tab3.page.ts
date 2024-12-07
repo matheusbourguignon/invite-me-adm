@@ -9,12 +9,10 @@ import { AuthService } from '../services/auth.service';
   styleUrls: ['./tab3.page.scss'],
 })
 export class Tab3Page implements OnInit {
-  profilePicture: string | undefined;
   name: string | undefined;
   cellphone: string | undefined;
   email: string | undefined;
   birthDate: string | undefined;
-  isZoomedImageModalOpen = false;
   isDataUpdated = false;  // Variável para controlar a exibição da mensagem de dados atualizados
 
   constructor(
@@ -31,7 +29,6 @@ export class Tab3Page implements OnInit {
     // Substituir o uso de localStorage por valores de um serviço ou uma API
     this.name = ''; // Exemplo: substituir com valores provenientes de um serviço
     this.email = ''; // Exemplo: substituir com valores provenientes de um serviço
-    this.profilePicture = ''; // Exemplo: substituir com valores provenientes de um serviço
     this.cellphone = ''; // Exemplo: substituir com valores provenientes de um serviço
     this.birthDate = ''; // Exemplo: substituir com valores provenientes de um serviço
     
@@ -43,10 +40,6 @@ export class Tab3Page implements OnInit {
     const actionSheet = await this.actionSheetController.create({
       buttons: [
         {
-          text: 'Ver Imagem',
-          handler: () => this.showZoomedImage(),
-        },
-        {
           text: 'Cancelar',
           role: 'cancel',
         },
@@ -55,32 +48,16 @@ export class Tab3Page implements OnInit {
     await actionSheet.present();
   }
 
-  selectNewProfilePicture(event?: Event) {
-    const fileInput = document.getElementById('fileInput') as HTMLInputElement;
-    if (fileInput) {
-      fileInput.click();
-      fileInput.onchange = (e) => {
-        const file = (e.target as HTMLInputElement).files?.[0];
-        if (file) {
-          const reader = new FileReader();
-          reader.onload = (event: any) => {
-            this.profilePicture = event.target.result;
-            this.showUpdatedMessage();  // Chama a função para exibir a mensagem de dados atualizados
-          };
-          reader.readAsDataURL(file);
-        }
-      };
-    }
-  }
-
-  showZoomedImage() {
-    if (this.profilePicture) {
-      this.isZoomedImageModalOpen = true;
-    }
-  }
-
-  closeZoomedImage() {
-    this.isZoomedImageModalOpen = false;
+  logout() {
+    this.authService.logout().subscribe({
+      next: () => {
+        console.log('Usuário deslogado com sucesso');
+        this.router.navigate(['/login']);
+      },
+      error: (error) => {
+        console.error('Erro ao deslogar:', error);
+      }
+    });
   }
 
   formatDate() {
@@ -118,19 +95,6 @@ export class Tab3Page implements OnInit {
       this.cellphone = formattedPhone;
     }
   }
-
-  logout() {
-    this.authService.logout().subscribe({
-      next: () => {
-        console.log('Usuário deslogado com sucesso');
-        this.router.navigate(['/login']);
-      },
-      error: (error) => {
-        console.error('Erro ao deslogar:', error);
-      }
-    });
-  }
-  
 
   // Função para exibir a mensagem de dados atualizados
   showUpdatedMessage() {

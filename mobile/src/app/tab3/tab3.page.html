@@ -9,21 +9,17 @@
 </ion-header>
 
 <ion-content fullscreen class="custom-content centered-content">
-  
   <ion-list class="custom-list custom-content">
-    <!-- Avatar do usuário -->
+    <!-- Remover o Avatar do usuário -->
     <ion-item lines="none" style="justify-content: center;">
-      <ion-avatar class="profile-avatar" (click)="presentActionSheet()">
-        <img *ngIf="profilePicture" [src]="profilePicture" alt="Foto de Perfil" class="profile-image" />
-        <ion-icon *ngIf="!profilePicture" name="person" class="profile-icon"></ion-icon>
-      </ion-avatar>
+      <!-- Avatar do usuário removido -->
     </ion-item>
 
     <ion-item [routerLink]="['/update-account']">
       <ion-icon name="create" class="edit-button"></ion-icon>
     </ion-item>
     
-    <!-- Exibição apenas das informações do usuário -->
+    <!-- Exibição das informações do usuário -->
     <ion-item class="input-item">
       <ion-label position="stacked">Nome</ion-label>
       <div>{{ name }}</div>
@@ -46,20 +42,5 @@
     
   </ion-list>
 
-  <!-- Modal para visualização de imagem ampliada -->
-  <ion-modal [isOpen]="isZoomedImageModalOpen" (didDismiss)="closeZoomedImage()" class="zoomed-image-modal">
-    <ng-template>
-      <ion-header>
-        <ion-toolbar>
-          <ion-title>Perfil</ion-title>
-          <ion-buttons slot="end">
-            <ion-button (click)="closeZoomedImage()">Fechar</ion-button>
-          </ion-buttons>
-        </ion-toolbar>
-      </ion-header>
-      <ion-content>
-        <img [src]="profilePicture" alt="Imagem Ampliada" class="zoomed-image" />
-      </ion-content>
-    </ng-template>
-  </ion-modal>
+  <!-- Modal para visualização de imagem ampliada (Remover modal de imagem) -->
 </ion-content>
