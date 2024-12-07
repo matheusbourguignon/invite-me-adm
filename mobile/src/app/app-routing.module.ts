@@ -32,9 +32,6 @@ const routes: Routes = [
     loadChildren: () => import('./presentation/presentation.module').then( m => m.PresentationPageModule)
   },
   {
-    path: 'edit-profile',
-    loadChildren: () => import('./edit-profile/edit-profile.module').then(m => m.EditProfilePageModule)
-  },  {
     path: 'update-account',
     loadChildren: () => import('./update-account/update-account.module').then( m => m.UpdateAccountPageModule)
   }
