@@ -30,13 +30,6 @@ export class AuthService {
     return this.http.post<any>(`${this.apiUrl}/login`, body);
   }
 
-  // Método de logout
-  logout(): Observable<void> {
-    // Aqui você pode limpar o token ou dados relacionados ao login
-    localStorage.removeItem('userToken');  // Exemplo de remoção do token do localStorage
-    return of();  // Retorna um Observable vazio (sem valor)
-  }
-
   // Método para login com Google (exemplo básico)
   loginWithGoogle(): Observable<any> {
     // Aqui você pode integrar a lógica de login com Google OAuth, por exemplo
@@ -46,4 +39,25 @@ export class AuthService {
       observer.complete();
     });
   }
+
+   // Método para atualizar os dados do usuário
+   updateAccount(data: {
+    name: string;
+    email: string;
+    birthdate: string;
+    cellphone: string;
+    password?: string;  // A senha é opcional para a atualização
+  }): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/update-account`, data);
+  }
+
+
+  logout(): Observable<any> {
+    // Lógica para limpar informações de autenticação (e.g., limpar token)
+    localStorage.removeItem('userToken'); // Exemplo de remoção de token
+
+    // Retorna um Observable (você pode adaptar conforme a necessidade)
+    return of({ message: 'Logged out successfully' });
+  }
+
 }

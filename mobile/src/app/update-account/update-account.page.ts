@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { ActionSheetController } from '@ionic/angular';
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NavController } from '@ionic/angular';
 import { AuthService } from '../services/auth.service';
 
 @Component({
@@ -8,179 +8,96 @@ import { AuthService } from '../services/auth.service';
   templateUrl: './update-account.page.html',
   styleUrls: ['./update-account.page.scss'],
 })
-export class UpdateAccountPage implements OnInit {
+export class UpdateAccountPage {
+  updateAccountForm: FormGroup;
+  showSuccessMessage: boolean = false;
+  showPassword: boolean = false;
+  passwordInvalid: boolean = false;
 
+  // Propriedade para armazenar a imagem de perfil
   profilePicture: string | undefined;
-  name: string | undefined;
-  cellphone: string | undefined;
-  email: string | undefined;
-  birthDate: string | undefined;
-  isZoomedImageModalOpen = false;
-  isDataUpdated = false;
-  isErrorOccurred = false;
+  
+  // Propriedade para controlar se o modal de imagem ampliada está aberto
+  isZoomedImageModalOpen: boolean = false;
 
   constructor(
-    private actionSheetController: ActionSheetController,
+    private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
-  ) { }
-
-  ngOnInit() {
-    this.loadUserProfile();
-  }
-
-  loadUserProfile() {
-    // Carrega os dados do localStorage, se disponíveis
-    const storedName = localStorage.getItem('userFullName'); // O nome completo é carregado aqui
-    const storedEmail = localStorage.getItem('userEmail');
-    const storedProfilePicture = localStorage.getItem('userProfilePicture');
-    const storedCellphone = localStorage.getItem('userCellphone');
-    const storedBirthDate = localStorage.getItem('userBirthDate');
-    
-    // Se os dados estiverem no localStorage, carrega-os
-    this.name = storedName || '';  // Aqui estamos definindo 'name' com o nome completo
-    this.email = storedEmail || '';
-    this.profilePicture = storedProfilePicture || '';
-    this.cellphone = storedCellphone || '';
-    this.birthDate = storedBirthDate || '';
-    
-    // Formata a data de nascimento e telefone
-    this.formatDate();
-    this.formatPhone();
-  }
-  
-  
-
-  async presentActionSheet() {
-    const actionSheet = await this.actionSheetController.create({
-      header: 'Opções de Imagem',
-      buttons: [
-        {
-          text: 'Alterar Foto',
-          handler: () => this.selectNewProfilePicture(),
-        },
-        {
-          text: 'Imagem',
-          handler: () => this.showZoomedImage(),
-        },
-        {
-          text: 'Cancelar',
-          role: 'cancel',
-        },
-      ],
+    private navCtrl: NavController
+  ) {
+    this.updateAccountForm = this.fb.group({
+      name: ['', [Validators.required, Validators.minLength(2)]],
+      email: ['', [Validators.required, Validators.email]],
+      birthdate: ['', Validators.required],
+      cellphone: ['', [Validators.required, Validators.pattern(/^\d{10,15}$/)]],
+      password: ['', [Validators.minLength(6)]],
     });
-    await actionSheet.present();
   }
 
-  selectNewProfilePicture() {
-    // Abre o input de arquivos para selecionar uma nova imagem
-    const fileInput = document.getElementById('fileInput') as HTMLInputElement;
-    if (fileInput) {
-      fileInput.click();
+  // Método para atualizar a conta
+  onSubmit() {
+    if (this.updateAccountForm.valid) {
+      this.authService.updateAccount(this.updateAccountForm.value).subscribe(
+        (response) => {
+          console.log('Account updated:', response);
+          this.showSuccessMessage = true;
+          setTimeout(() => {
+            this.navCtrl.navigateRoot('/profile');
+          }, 3000);
+        },
+        (error) => {
+          console.error('Error updating account:', error);
+          alert(error.error.message || 'Failed to update account.');
+        }
+      );
     }
   }
 
-  handleImageChange(event: Event) {
-    const fileInput = event.target as HTMLInputElement;
-    const file = fileInput?.files?.[0];
+  // Método para exibir/ocultar a senha
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
+
+  // Método para manipular a mudança da imagem de perfil
+  handleImageChange(event: any) {
+    const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
-      reader.onload = (e: any) => {
-        this.profilePicture = e.target.result;
-        localStorage.setItem('userProfilePicture', this.profilePicture || '');
+      reader.onload = () => {
+        this.profilePicture = reader.result as string; // Atualiza a imagem de perfil
       };
       reader.readAsDataURL(file);
     }
   }
 
-  showZoomedImage() {
-    if (this.profilePicture) {
-      this.isZoomedImageModalOpen = true;
-    }
+  // Método para abrir o action sheet
+  presentActionSheet() {
+    // Implementação do action sheet para alterar a imagem de perfil
   }
 
+  // Método para fechar o modal de imagem ampliada
   closeZoomedImage() {
-    this.isZoomedImageModalOpen = false;
+    this.isZoomedImageModalOpen = false; // Fecha o modal de imagem ampliada
   }
 
-  changeUserData() {
-    if (this.validateForm()) {
-      try {
-        // Formatar os dados antes de salvar
-        this.formatDate();
-        this.formatPhone();
+  // Método para abrir o modal de imagem ampliada
+  openZoomedImage() {
+    this.isZoomedImageModalOpen = true; // Abre o modal de imagem ampliada
+  }
 
-        localStorage.setItem('fullName', this.name || '');
-        localStorage.setItem('userEmail', this.email || '');
-        localStorage.setItem('userProfilePicture', this.profilePicture || '');
-        localStorage.setItem('userCellphone', this.cellphone || '');
-        localStorage.setItem('userBirthDate', this.birthDate || '');
-  
-        this.loadUserProfile();
-        this.isDataUpdated = true;
-        setTimeout(() => {
-          this.isDataUpdated = false;
-          this.router.navigate(['/tabs/tab3']);
-        }, 3000);
-      } catch (error) {
-        console.error('Erro ao salvar alterações:', error);
-        this.isErrorOccurred = true;
-        setTimeout(() => {
-          this.isErrorOccurred = false;
-        }, 3000);
+   // Método de logout
+   logout() {
+    this.authService.logout().subscribe(
+      (response) => {
+        console.log('Logged out:', response);
+        // Redirecionar para a página de login após o logout
+        this.navCtrl.navigateRoot('/login');
+      },
+      (error) => {
+        console.error('Error logging out:', error);
+        alert('Failed to log out.');
       }
-    } else {
-      console.log('Formulário inválido');
-      this.isErrorOccurred = true;
-    }
+    );
   }
 
-  validateForm(): boolean {
-    if (!this.name || !this.cellphone || !this.email) {
-      return false;
-    }
-    return true;
-  }
-
-  formatDate() {
-    if (this.birthDate) {
-      let dateOnlyDigits = this.birthDate.replace(/\D/g, '');
-      if (dateOnlyDigits.length > 8) {
-        dateOnlyDigits = dateOnlyDigits.slice(0, 8);
-      }
-
-      if (dateOnlyDigits.length >= 5) {
-        this.birthDate = dateOnlyDigits.replace(/(\d{2})(\d{2})(\d+)/, '$1/$2/$3');
-      } else if (dateOnlyDigits.length >= 3) {
-        this.birthDate = dateOnlyDigits.replace(/(\d{2})(\d+)/, '$1/$2');
-      } else {
-        this.birthDate = dateOnlyDigits;
-      }
-
-      if (this.birthDate.length > 10) {
-        this.birthDate = this.birthDate.slice(0, 10);
-      }
-    }
-  }
-
-  formatPhone() {
-    if (this.cellphone) {
-      let formattedPhone = this.cellphone.replace(/\D/g, '');
-  
-      if (formattedPhone.length > 10) {
-        formattedPhone = formattedPhone.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
-      } else if (formattedPhone.length > 6) {
-        formattedPhone = formattedPhone.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3');
-      } else if (formattedPhone.length > 2) {
-        formattedPhone = formattedPhone.replace(/(\d{2})(\d+)/, '($1) $2');
-      }
-  
-      this.cellphone = formattedPhone;
-    }
-  }
-
-  logout() {
-    this.authService.logout();
-    this.router.navigate(['/login']);
-  }
 }
