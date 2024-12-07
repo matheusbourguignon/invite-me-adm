@@ -14,6 +14,7 @@ import { errorHandler } from "./error-handler";
 import { createAccount } from "./routes/create-account";
 import { login } from "./routes/login";
 import { updateAccount } from "./routes/update-account";
+import { getAccount } from "./routes/get-account";
 
 
 export const app = fastify()
@@ -44,6 +45,7 @@ app.setValidatorCompiler(validatorCompiler);
 app.setSerializerCompiler(serializerCompiler);
 
 app.register(createAccount)
+app.register(getAccount)
 app.register(updateAccount); 
 app.register(login)
 app.register(createEvent)

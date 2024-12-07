@@ -30,6 +30,12 @@ Content-Type: application/json
   "birthdate": "1998-04-16"
 }
 
+
+### Buscar Conta Completa (GET)
+GET http://localhost:3333/account/46b68fa0-da5f-4c1c-80c4-2c4ca8cedb58
+Content-Type: application/json
+
+
 ### Teste de Login
 POST http://localhost:3333/login
 Content-Type: application/json
