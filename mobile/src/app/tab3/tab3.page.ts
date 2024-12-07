@@ -26,14 +26,20 @@ export class Tab3Page implements OnInit {
   }
 
   loadUserProfile() {
-    // Substituir o uso de localStorage por valores de um serviço ou uma API
-    this.name = ''; // Exemplo: substituir com valores provenientes de um serviço
-    this.email = ''; // Exemplo: substituir com valores provenientes de um serviço
-    this.cellphone = ''; // Exemplo: substituir com valores provenientes de um serviço
-    this.birthDate = ''; // Exemplo: substituir com valores provenientes de um serviço
-    
-    this.formatDate();
-    this.formatPhone();
+    const accountId = '46b68fa0-da5f-4c1c-80c4-2c4ca8cedb58'; // Substitua com o ID real do usuário, pode ser retirado do token ou storage
+
+    // Chama o serviço para obter os dados do usuário
+    this.authService.getUserAccount(accountId).subscribe({
+      next: (data) => {
+        this.name = data.name;
+        this.email = data.email;
+        this.cellphone = data.cellphone;
+        this.birthDate = data.birthdate;
+      },
+      error: (err) => {
+        console.error('Erro ao carregar perfil:', err);
+      }
+    });
   }
 
   async presentActionSheet() {

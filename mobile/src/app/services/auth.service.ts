@@ -51,6 +51,10 @@ export class AuthService {
     return this.http.put<any>(`${this.apiUrl}/update-account`, data);
   }
 
+    // Método para obter os dados do usuário com base no accountId
+    getUserAccount(accountId: string): Observable<any> {
+      return this.http.get<any>(`${this.apiUrl}/account/${accountId}`);
+    }
 
   logout(): Observable<any> {
     // Lógica para limpar informações de autenticação (e.g., limpar token)
