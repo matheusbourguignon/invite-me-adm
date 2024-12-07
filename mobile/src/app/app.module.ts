@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { provideHttpClient } from '@angular/common/http'; // Importação da nova abordagem
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -15,7 +16,7 @@ import { AppComponent } from './app.component';
     AppRoutingModule,
     ReactiveFormsModule
   ],
-  providers: [
+  providers: [DatePipe,
     provideHttpClient(), // Substitui HttpClientModule
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
   ],

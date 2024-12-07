@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common'; // Importe o DatePipe
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ActionSheetController } from '@ionic/angular';
@@ -18,7 +19,8 @@ export class Tab3Page implements OnInit {
   constructor(
     private actionSheetController: ActionSheetController,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private datePipe: DatePipe  // Injeta o DatePipe aqui
   ) { }
 
   ngOnInit() {
@@ -34,7 +36,9 @@ export class Tab3Page implements OnInit {
         this.name = data.name;
         this.email = data.email;
         this.cellphone = data.cellphone;
-        this.birthDate = data.birthdate;
+        
+        // Usa o DatePipe para formatar a data no formato dd/MM/yyyy
+        this.birthDate = this.datePipe.transform(data.birthdate, 'dd/MM/yyyy')!;
       },
       error: (err) => {
         console.error('Erro ao carregar perfil:', err);
