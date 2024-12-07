@@ -12,13 +12,6 @@ export class UpdateAccountPage {
   updateAccountForm: FormGroup;
   showSuccessMessage: boolean = false;
   showPassword: boolean = false;
-  passwordInvalid: boolean = false;
-
-  // Propriedade para armazenar a imagem de perfil
-  profilePicture: string | undefined;
-  
-  // Propriedade para controlar se o modal de imagem ampliada está aberto
-  isZoomedImageModalOpen: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -30,20 +23,24 @@ export class UpdateAccountPage {
       email: ['', [Validators.required, Validators.email]],
       birthdate: ['', Validators.required],
       cellphone: ['', [Validators.required, Validators.pattern(/^\d{10,15}$/)]],
-      password: ['', [Validators.minLength(6)]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
     });
   }
 
-  // Método para atualizar a conta
   onSubmit() {
     if (this.updateAccountForm.valid) {
-      this.authService.updateAccount(this.updateAccountForm.value).subscribe(
+      const formData = this.updateAccountForm.value;
+      const userId = 'some-user-id'; // Aqui você vai passar o ID do usuário correto
+
+      console.log('Sending data to backend:', { ...formData, userId });  // Log para verificar os dados
+
+      this.authService.updateAccount({ ...formData, userId }).subscribe(
         (response) => {
           console.log('Account updated:', response);
-          this.showSuccessMessage = true;
+          this.showSuccessMessage = true; // Exibe a mensagem de sucesso
           setTimeout(() => {
-            this.navCtrl.navigateRoot('/profile');
-          }, 3000);
+            this.navCtrl.navigateRoot('/profile'); // Navega para a página de perfil após a atualização
+          }, 3000); // Espera 3 segundos para a navegação
         },
         (error) => {
           console.error('Error updating account:', error);
@@ -52,52 +49,4 @@ export class UpdateAccountPage {
       );
     }
   }
-
-  // Método para exibir/ocultar a senha
-  togglePasswordVisibility() {
-    this.showPassword = !this.showPassword;
-  }
-
-  // Método para manipular a mudança da imagem de perfil
-  handleImageChange(event: any) {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.profilePicture = reader.result as string; // Atualiza a imagem de perfil
-      };
-      reader.readAsDataURL(file);
-    }
-  }
-
-  // Método para abrir o action sheet
-  presentActionSheet() {
-    // Implementação do action sheet para alterar a imagem de perfil
-  }
-
-  // Método para fechar o modal de imagem ampliada
-  closeZoomedImage() {
-    this.isZoomedImageModalOpen = false; // Fecha o modal de imagem ampliada
-  }
-
-  // Método para abrir o modal de imagem ampliada
-  openZoomedImage() {
-    this.isZoomedImageModalOpen = true; // Abre o modal de imagem ampliada
-  }
-
-   // Método de logout
-   logout() {
-    this.authService.logout().subscribe(
-      (response) => {
-        console.log('Logged out:', response);
-        // Redirecionar para a página de login após o logout
-        this.navCtrl.navigateRoot('/login');
-      },
-      (error) => {
-        console.error('Error logging out:', error);
-        alert('Failed to log out.');
-      }
-    );
-  }
-
 }

@@ -1,202 +1,149 @@
-ion-toolbar {
-    --background: #4bb874; /* Cor do toolbar */
-}
-
-/* Estilizando o título */
-ion-title {
-    color: white; /* Cor do texto do título */
-}
-
-
-.data-updated-message {
-    text-align: center;
+ion-content {
+    --background: #f2f2f2;
     display: flex;
     justify-content: center;
     align-items: center;
-    /* Para centralizar completamente, ajuste conforme necessário */
+    height: 100vh;
 }
 
-
-.logout-button {
-    --color: #ffffff; /* Cor do texto em branco */
-    border-radius: 8px; /* Bordas arredondadas */
-    padding: 8px 12px; /* Espaçamento interno */
-    text-transform: none; /* Remove a caixa alta */
-    font-size: 16px; /* Mantém o tamanho original do texto */
+.gray-container {
+    background-color: rgba(200, 200, 200, 0.5);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 400px;
 }
 
-.logout-button ion-icon {
-    font-size: 35px; /* Aumenta o tamanho do ícone (ajuste conforme necessário) */
-    /* Espaçamento entre o ícone e o texto */
+ion-toolbar {
+    --background: #4bb874;
 }
 
-.logout-button:hover {
-    --color: #38995d; /* Cor de fundo mais escura ao passar o mouse */
-    transform: scale(1.05); /* Leve aumento ao passar o mouse */
-    transition: transform 0.2s ease; /* Transição suave para o efeito de hover */
+.label-item{
+    color: #4bb874;
 }
 
-.edit-button {
-    --background: transparent; /* Fundo transparente para o botão */
-    color: #4bb874; /* Cor do texto do botão */
-    border-radius: 8px; /* Bordas arredondadas */
-    padding: 12px 16px; /* Espaçamento interno */
-    text-transform: none; /* Remove a caixa alta */
-    font-size: 30px; /* Tamanho do texto */
+.success-message {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 20px;
+    color: #4bb874; /* Cor verde para indicar sucesso */
+  }
+  
+
+ion-title {
+    color: white;
+}
+
+.logo-container {
     display: flex;
-    align-items: center; /* Alinha o ícone e o texto */
-    justify-content: center; /* Centraliza o conteúdo */
-    margin: 0 auto;
-    margin-right: 0;
+    justify-content: center;
 }
 
-
-.edit-button:hover {
-    --color: #38995d; /* Cor do texto e fundo mais escuro ao passar o mouse */
-    transform: scale(1.05); /* Leve aumento ao passar o mouse */
-    transition: transform 0.2s ease; /* Transição suave para o efeito de hover */
+.logo {
+    max-width: 50%;
+    height: auto;
+    margin-right: 50px;
 }
 
-.edit-button:hover ion-icon {
-    color: #45aa6c; /* Cor do ícone verde mais escuro ao passar o mouse */
+.white-icon {
+    color: white; /* Define a cor do ícone como branca */
+    font-size: 20px; /* Ajuste o tamanho do ícone conforme necessário */
+    margin-right: 8px; /* Espaçamento entre o ícone e o texto */
 }
-
 
 
 .centered-content {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centraliza horizontalmente */
-    justify-content: center; /* Centraliza verticalmente */
-    height: 100%; /* Ocupa toda a altura do ion-content */
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: 0 20px;
 }
 
 .custom-list {
-    width: 100%; /* Faz a lista ocupar toda a largura */
-    max-width: 400px; /* Limita a largura máxima para a lista */
-    margin: 50px auto; /* Centraliza a lista */
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
 }
 
 .custom-list ion-item {
-    --border-color: transparent; /* Remove a borda do item */
-    border-bottom: none; /* Remove a borda inferior */
-    --background: transparent; /* Garante que o fundo do item seja transparente */
-    border-radius: 8px; /* Bordas arredondadas, se desejado */
+    --border-color: transparent;
+    border-bottom: none;
+    --background: transparent;
+    border-radius: 8px;
 }
 
 .custom-list ion-item:after {
-    display: none; /* Remove a linha abaixo do item */
+    display: none;
 }
 
 .custom-list ion-item:hover {
-    --background: transparent; /* Cor de fundo dos itens ao passar o mouse */
+    --background: transparent;
 }
 
-.profile-avatar {
-    width: 30vw;
-    height: 30vw;
-    max-width: 150px;
-    max-height: 150px;
-    border-radius: 50%;
-    border: 2px solid #4bb874;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 20px auto;
-    cursor: pointer;
-    position: relative;
-    transition: border 0.3s ease, transform 0.3s ease; /* Transição para a borda e transformações */
-}
-
-.profile-icon, .profile-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: opacity 0.3s ease, transform 0.3s ease; /* Suave transição para a imagem ou ícone */
-}
-
-.profile-icon {
-    color: #4bb874; /* Cor verde para o ícone */
-    width: 90px; /* Definindo o tamanho para 90px */
-    height: 90px; /* Para manter a proporção */
-    transition: transform 0.2s ease; /* Transição suave no hover */
-}
-
-.profile-avatar:hover .profile-icon {
-    transform: scale(1.1); /* Efeito de zoom no ícone ao passar o mouse */
-}
-
-.profile-avatar:hover .profile-image {
-    transform: scale(1.1); /* Efeito de zoom na imagem quando alterada */
-    opacity: 0.8; /* Leve opacidade ao passar o mouse na imagem */
-}
-
-.profile-avatar img {
-    transition: opacity 0.3s ease, transform 0.3s ease; /* Transição suave ao mudar a imagem */
-}
-
-.zoomed-image {
-    width: 100%; /* Faz a imagem ocupar toda a largura do modal */
-    height: 100%; /* Faz a imagem ocupar toda a altura do modal */
-    object-fit: contain; /* Mantém a proporção da imagem */
-}
-
-.custom-popover ion-item {
-    --background: #4bb874; /* Fundo verde para os itens do popover */
-    --color: #ffffff; /* Texto branco */
-    font-weight: bold; /* Texto em negrito */
-}
-
-.custom-popover ion-item:hover {
-    --background: #38995d; /* Fundo um pouco mais escuro ao passar o mouse */
-}
-
-ion-list {
-    margin-top: 70px; /* Margem superior da lista */
-}
-
-/* Estilo para ion-label */
 ion-label {
-    font-weight: bold; /* Deixa a fonte em negrito */
-    font-size: 16px; /* Ajuste o tamanho da fonte conforme necessário */
-    color: #000000; /* Altere a cor do texto se necessário */
+    font-weight: bold;
+    font-size: 16px;
+    color: #000000;
 }
 
 ion-input {
     margin-top: 25px;
-    --background: #ffffff; /* Fundo branco para o campo de input */
-    --color: #000000; /* Cor do texto */
+    --background: #ffffff;
+    --color: #000000;
+    z-index: 1;
+    position: relative;
 }
 
-::ng-deep ion-action-sheet {
-    --background: #4bb874 !important; /* Fundo do action sheet */
+.input-item {
+    position: relative;
 }
 
-::ng-deep ion-action-sheet .action-sheet-title {
-    color: #ffffff !important; /* Texto branco nas opções */
+ion-icon {
+    position: absolute;
+    right: 25px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--ion-color-medium);
+    cursor: pointer;
+    z-index: 2;
 }
 
-::ng-deep ion-action-sheet .action-sheet-button {
-    --background: #34495e !important; /* Fundo dos botões de opção */
-    color: #ffffff !important; /* Texto branco nas opções */
+.custom-login-button {
+    --background: #4bb874;
+    --color: #ffffff;
+    border-radius: 8px;
+    padding: 12px 16px;
+    text-transform: none;
 }
 
-::ng-deep ion-action-sheet .action-sheet-cancel {
-    --background: #e74c3c !important; /* Fundo do botão "Cancelar" */
-    color: #ffffff !important; /* Texto branco no botão "Cancelar" */
+.custom-login-button:hover {
+    --background: #45aa6c;
+    transform: scale(1.05);
+    transition: transform 0.2s ease;
 }
 
-.custom-save-button {
-    --background: #4bb874; /* Cor de fundo verde */
-    --color: #ffffff; /* Cor do texto branco */
-    border-radius: 8px; /* Bordas arredondadas */
-    padding: 12px 16px; /* Espaçamento interno */
-    text-transform: none; /* Remove a caixa alta */
+.link-container {
+  text-align: center;
+  margin-top: 15px;
 }
 
-.custom-save-button:hover {
-    --background: #45aa6c; /* Cor de fundo verde mais escuro ao passar o mouse */
-    transform: scale(1.05); /* Leve aumento ao passar o mouse */
-    transition: transform 0.2s ease; /* Transição suave para o efeito de hover */
+.custom-link {
+  color: #4bb874;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.custom-link:hover {
+  text-decoration: underline;
+}
+
+.forgot-password {
+  text-align: right;
+  margin: 5px 15px 15px 0;
+  display: block;
 }
