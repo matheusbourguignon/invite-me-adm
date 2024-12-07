@@ -28,18 +28,13 @@ export class Tab3Page implements OnInit {
   }
 
   loadUserProfile() {
-    const storedName = localStorage.getItem('userFullName');
-    const storedEmail = localStorage.getItem('userEmail');
-    const storedProfilePicture = localStorage.getItem('userProfilePicture');
-    const storedCellphone = localStorage.getItem('userCellphone');
-    const storedBirthDate = localStorage.getItem('userBirthDate');
+    // Substituir o uso de localStorage por valores de um serviço ou uma API
+    this.name = ''; // Exemplo: substituir com valores provenientes de um serviço
+    this.email = ''; // Exemplo: substituir com valores provenientes de um serviço
+    this.profilePicture = ''; // Exemplo: substituir com valores provenientes de um serviço
+    this.cellphone = ''; // Exemplo: substituir com valores provenientes de um serviço
+    this.birthDate = ''; // Exemplo: substituir com valores provenientes de um serviço
     
-    this.name = storedName || '';
-    this.email = storedEmail || '';
-    this.profilePicture = storedProfilePicture || '';
-    this.cellphone = storedCellphone || '';
-    this.birthDate = storedBirthDate || '';
-  
     this.formatDate();
     this.formatPhone();
   }
@@ -70,7 +65,6 @@ export class Tab3Page implements OnInit {
           const reader = new FileReader();
           reader.onload = (event: any) => {
             this.profilePicture = event.target.result;
-            localStorage.setItem('userProfilePicture', this.profilePicture || '');
             this.showUpdatedMessage();  // Chama a função para exibir a mensagem de dados atualizados
           };
           reader.readAsDataURL(file);
