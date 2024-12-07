@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { AuthService } from '../services/auth.service';
 
@@ -14,6 +15,7 @@ export class UpdateAccountPage {
   showPassword: boolean = false;
 
   constructor(
+    private router: Router,
     private fb: FormBuilder,
     private authService: AuthService,
     private navCtrl: NavController
@@ -30,16 +32,16 @@ export class UpdateAccountPage {
   onSubmit() {
     if (this.updateAccountForm.valid) {
       const formData = this.updateAccountForm.value;
-      const userId = 'some-user-id'; // Aqui você vai passar o ID do usuário correto
-
+      const userId = '46b68fa0-da5f-4c1c-80c4-2c4ca8cedb58'; // Aqui você vai passar o ID do usuário correto
+  
       console.log('Sending data to backend:', { ...formData, userId });  // Log para verificar os dados
-
+  
       this.authService.updateAccount({ ...formData, userId }).subscribe(
         (response) => {
           console.log('Account updated:', response);
           this.showSuccessMessage = true; // Exibe a mensagem de sucesso
           setTimeout(() => {
-            this.navCtrl.navigateRoot('/profile'); // Navega para a página de perfil após a atualização
+            this.router.navigate(['/tab3']); // Navega para a página de perfil após a atualização
           }, 3000); // Espera 3 segundos para a navegação
         },
         (error) => {
@@ -48,5 +50,5 @@ export class UpdateAccountPage {
         }
       );
     }
-  }
+ }
 }
