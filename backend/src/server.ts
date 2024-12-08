@@ -3,18 +3,19 @@ import fastify from "fastify";
 import fastifyCors from "@fastify/cors";
 import fastifySwagger from "@fastify/swagger";
 import fastifySwaggerUi from "@fastify/swagger-ui";
-import { serializerCompiler, validatorCompiler, jsonSchemaTransform} from "fastify-type-provider-zod";
-import { createEvent } from "./routes/create-event";
-import { registerForEvent } from "./routes/register-for-event";
-import { getEvent } from "./routes/get-event";
-import { getAttendeeBadge } from "./routes/get-attendee-badge";
-import { checkIn } from "./routes/check-in";
-import { getEventAttendees } from "./routes/get-event-attendees";
+import { jsonSchemaTransform, serializerCompiler, validatorCompiler } from "fastify-type-provider-zod";
 import { errorHandler } from "./error-handler";
+import { checkIn } from "./routes/check-in";
 import { createAccount } from "./routes/create-account";
-import { login } from "./routes/login";
-import { updateAccount } from "./routes/update-account";
+import { createEvent } from "./routes/create-event";
+import { createInvite } from "./routes/create-invite";
 import { getAccount } from "./routes/get-account";
+import { getAttendeeBadge } from "./routes/get-attendee-badge";
+import { getEvent } from "./routes/get-event";
+import { getEventAttendees } from "./routes/get-event-attendees";
+import { login } from "./routes/login";
+import { registerForEvent } from "./routes/register-for-event";
+import { updateAccount } from "./routes/update-account";
 
 
 export const app = fastify()
@@ -44,6 +45,7 @@ app.register(fastifySwaggerUi, {
 app.setValidatorCompiler(validatorCompiler);
 app.setSerializerCompiler(serializerCompiler);
 
+app.register(createInvite)
 app.register(createAccount)
 app.register(getAccount)
 app.register(updateAccount); 

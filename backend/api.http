@@ -10,6 +10,16 @@ Content-Type: application/json
   "time": "15:00"
 }
 
+enviar convite pro participante
+###
+POST http://localhost:3333/invites
+Content-Type: application/json
+
+{
+  "name": "Matheus Bourguignon",
+  "email": "matheusmbl21@gmail.com",
+  "eventId": "c9e853f2-55f8-473d-a9e3-c54c7cab4653"
+}
 
 
 ###
