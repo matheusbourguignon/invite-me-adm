@@ -1,12 +1,16 @@
-### Criar um novo evento
+###
 POST http://localhost:3333/events
 Content-Type: application/json
 
 {
-  "title": "Romario e Juliana",
-  "details": "casamento",
-  "maximumAttendees": 150
+  "title": "Ana e Bruno",
+  "details": "Casamento",
+  "maximumAttendees": 150,
+  "date": "23/01/2025",
+  "time": "15:00"
 }
+
+
 
 ###
 ### Criar o participante no evento
