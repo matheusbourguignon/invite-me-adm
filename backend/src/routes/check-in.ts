@@ -4,39 +4,53 @@ import { z } from "zod";
 import { prisma } from "../lib/prisma";
 import { BadRequest } from "./_errors/bad-request";
 
-export async function checkIn(app: FastifyInstance){
-app
-.withTypeProvider<ZodTypeProvider>()
-.get('/attendees/:attendeeId/check-in', {
-    schema: {
-        summary: 'Check an attendee',
+export async function checkIn(app: FastifyInstance) {
+  app
+    .withTypeProvider<ZodTypeProvider>()
+    .post('/attendees/check-in', {
+      schema: {
+        summary: 'Check an attendee by email',
         tags: ['check-ins'],
-        params:z.object({
-          attendeeId: z.coerce.number().int()
+        body: z.object({
+          email: z.string().email() // Recebe o email do convidado
         }),
         response: {
-            201: z.null(),
+          201: z.null(),
         }
-    }
-}, async (request, reply) => {
-   const { attendeeId } = request.params
+      }
+    }, async (request, reply) => {
+      const { email } = request.body;
 
-   const attendeeCheckIn = await prisma.checkIn.findUnique({
-    where: {
-        attendeeId,
-    }
-   })
+      // Buscar o convite baseado no email (e também no eventId, se necessário)
+      const invite = await prisma.invite.findFirst({
+        where: {
+          email, // Buscar pelo email do convidado
+          eventId: 'some-event-id' // Ajuste para o ID correto do evento, ou passe via parâmetro
+        }
+      });
 
-   if (attendeeCheckIn !== null){
-    throw new BadRequest('Attendee already checked in')
-   }
+      if (!invite) {
+        throw new BadRequest('Invite not found');
+      }
 
-   await prisma.checkIn.create({
-    data: {
-        attendeeId,
-    }
-   })
+      // Verificar se o convidado já fez o check-in
+      const attendeeCheckIn = await prisma.checkIn.findUnique({
+        where: {
+          inviteId: invite.id, // Usando o inviteId
+        }
+      });
 
-   return reply.status(201).send()
-})
+      if (attendeeCheckIn !== null) {
+        throw new BadRequest('Attendee already checked in');
+      }
+
+      // Criar o check-in com base no inviteId
+      await prisma.checkIn.create({
+        data: {
+          inviteId: invite.id, // Usando o inviteId aqui
+        }
+      });
+
+      return reply.status(201).send();
+    });
 }

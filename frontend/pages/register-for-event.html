@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registrar Participante para Evento</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+    .container {
+      width: 100%;
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 20px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+    label {
+      font-size: 16px;
+      color: #555;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    .error {
+      color: red;
+      text-align: center;
+      font-size: 14px;
+    }
+    .success {
+      color: green;
+      text-align: center;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+    
+
+  <div class="container">
+    <h2>Registrar Participante</h2>
+
+    <!-- Formulário de registro -->
+    <form id="register-form">
+      <label for="name">Nome</label>
+      <input type="text" id="name" name="name" required placeholder="Digite seu nome">
+
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" required placeholder="Digite seu email">
+
+      <label for="eventId">ID do Evento</label>
+      <input type="text" id="eventId" name="eventId" required placeholder="Digite o ID do evento">
+
+      <button type="submit">Registrar para o Evento</button>
+    </form>
+
+    <!-- Mensagens de erro ou sucesso -->
+    <div id="message" class="error"></div>
+  </div>
+
+  <script>
+    // Selecionando o formulário e a área de mensagem
+    const form = document.getElementById('register-form');
+    const messageDiv = document.getElementById('message');
+
+    // Função para enviar a requisição
+    async function registerForEvent(event) {
+      event.preventDefault();  // Previne o comportamento padrão do formulário
+
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const eventId = document.getElementById('eventId').value;
+
+      // Limpar mensagens anteriores
+      messageDiv.textContent = '';
+
+      try {
+        // Enviando a requisição POST para o servidor
+        const response = await fetch(`/events/${eventId}/invites`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ name, email }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          messageDiv.textContent = `Registrado com sucesso! ID do convite: ${data.inviteId}`;
+          messageDiv.className = 'success';
+        } else {
+          messageDiv.textContent = data.message || 'Erro ao registrar participante';
+          messageDiv.className = 'error';
+        }
+      } catch (error) {
+        messageDiv.textContent = 'Erro na comunicação com o servidor';
+        messageDiv.className = 'error';
+      }
+    }
+
+    // Adicionando evento de envio do formulário
+    form.addEventListener('submit', registerForEvent);
+  </script>
+
+</body>
+</html>

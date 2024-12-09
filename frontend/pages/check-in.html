@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check-in do Convidado</title>
+    <!-- Link para o Bootstrap -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="text-center">Check-in do Convidado</h2>
+
+        <!-- Formulário de Check-in -->
+        <form id="checkInForm">
+            <div class="form-group">
+                <label for="email">E-mail do Convidado:</label>
+                <input type="email" class="form-control" id="email" placeholder="Digite o e-mail do convidado" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Fazer Check-in</button>
+        </form>
+
+        <div id="alert" class="alert mt-3" style="display: none;"></div>
+    </div>
+
+    <script>
+        document.getElementById('checkInForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            // Obter o email do convidado
+            const email = document.getElementById('email').value;
+
+            try {
+                // Enviar requisição para o backend com o email do convidado
+                const response = await fetch(`/attendees/check-in`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email }) // Envia o e-mail como parte do corpo da requisição
+                });
+
+                // Manipulação da resposta
+                const alert = document.getElementById('alert');
+                if (response.ok) {
+                    alert.className = 'alert alert-success';
+                    alert.innerText = 'Check-in realizado com sucesso!';
+                } else {
+                    alert.className = 'alert alert-danger';
+                    alert.innerText = 'Erro: ' + (await response.text());
+                }
+                alert.style.display = 'block';
+            } catch (error) {
+                // Exibir erro de rede
+                const alert = document.getElementById('alert');
+                alert.className = 'alert alert-danger';
+                alert.innerText = 'Erro ao realizar o check-in. Tente novamente mais tarde.';
+                alert.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
