@@ -1,0 +1,123 @@
+   /* Resetando a margin e padding para todos os elementos */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Estilo geral do corpo da página */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7fc;
+            color: #333;
+        }
+
+        /* Estilo do formulário */
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            font-size: 24px;
+            color: #333;
+        }
+
+        .form-label {
+            font-size: 14px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .form-control {
+            font-size: 16px;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 100%;
+        }
+
+        .btn-primary {
+            font-size: 16px;
+            font-weight: bold;
+            padding: 12px;
+            background-color: #249758;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            transition: background-color 0.3s;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            background-color: #187a44;
+        }
+
+        .alert {
+            font-size: 16px;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 5px;
+        }
+
+        .alert-success {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .alert-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        /* Responsividade */
+        @media (max-width: 576px) {
+            .container {
+                padding: 10px;
+            }
+        }
+
+
+/* Sidebar */
+       .sidebar {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: 250px;
+        background-color: #2aa35d;
+        color: white;
+        padding-top: 20px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .sidebar .nav-item {
+        margin-bottom: 10px;
+    }
+
+    .sidebar .nav-link {
+        color: #fff;
+        font-size: 18px;
+        padding: 10px;
+    }
+
+    .sidebar .nav-link:hover {
+        background-color: #259955;
+    }
+
+    /* Colocar o logout no fundo */
+    .sidebar .nav {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    .sidebar .nav-item.logout {
+        margin-top: auto;
+    }
