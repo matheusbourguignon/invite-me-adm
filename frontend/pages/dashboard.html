@@ -80,65 +80,19 @@
         <h3 class="text-center text-white">Dashboard</h3>
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link active" href="#criarEvento">
+                <a class="nav-link active" href="/frontend/pages/create-event.html">
                     <i class="fas fa-plus-circle"></i> Criar Evento
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#listarEventos">
+                <a class="nav-link" href="/frontend/pages/get-event.html">
                     <i class="fas fa-list"></i> Lista de Eventos
                 </a>
             </li>
         </ul>
     </div>
 
-    <!-- Conteúdo da Dashboard -->
-    <div class="content">
-        <!-- Mensagem de Sucesso ou Erro -->
-        <div id="error-message" class="alert alert-danger d-none"></div>
-        <div id="success-message" class="alert alert-success d-none"></div>
 
-        <!-- Área de Criar Evento -->
-        <div id="criarEvento">
-            <h2>Criar Evento</h2>
-            <form id="createEventForm">
-                <div class="mb-3">
-                    <label for="title" class="form-label">Nome do Evento:</label>
-                    <input type="text" class="form-control" id="title" required>
-                </div>
-                <div class="mb-3">
-                    <label for="details" class="form-label">Descrição do Evento:</label>
-                    <textarea class="form-control" id="details"></textarea>
-                </div>
-                <div class="mb-3">
-                    <label for="maximumAttendees" class="form-label">Capacidade Máxima:</label>
-                    <input type="number" class="form-control" id="maximumAttendees">
-                </div>
-                <div class="mb-3">
-                    <label for="date" class="form-label">Data do Evento:</label>
-                    <input type="text" class="form-control" id="date" placeholder="dd/mm/yyyy" required>
-                </div>
-                <div class="mb-3">
-                    <label for="time" class="form-label">Horário do Evento:</label>
-                    <input type="text" class="form-control" id="time" placeholder="00:00">
-                </div>
-                <button type="submit" class="btn btn-primary">Criar Evento</button>
-            </form>
-        </div>
-
-        <!-- Área de Lista de Eventos -->
-        <div id="listarEventos" class="mt-5">
-            <h2>Lista de Eventos Cadastrados</h2>
-            <div class="card">
-                <div class="card-header">
-                    Eventos
-                </div>
-                <div class="card-body" id="eventList">
-                    <p class="text-muted">Nenhum evento cadastrado ainda.</p>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <script>
         // Função para validar o nome do evento

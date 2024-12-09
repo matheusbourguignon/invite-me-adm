@@ -3,40 +3,124 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Testar Evento</title>
+  <title>Buscar Evento</title>
   <style>
+    /* Reset de estilos e configuração de fonte padrão */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
-      padding: 20px;
-      background-color: #f4f4f9;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f7f9fb;
+      color: #333;
+      padding: 30px;
+      max-width: 1200px;
+      margin: 0 auto;
     }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #0073e6;
+    }
+
     label {
+      font-weight: 600;
       margin-bottom: 8px;
-      display: block;
-      font-weight: bold;
-    }
-    input, button {
-      padding: 10px;
-      margin: 5px 0;
+      display: inline-block;
       font-size: 16px;
+      color: #555;
     }
-    #eventDetails {
-      margin-top: 20px;
-      padding: 20px;
+
+    input, button {
+      padding: 12px;
+      font-size: 16px;
+      width: 100%;
+      margin-top: 10px;
+      border-radius: 6px;
       border: 1px solid #ccc;
-      background-color: #fff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      transition: border 0.3s ease;
     }
-    #error {
-      color: red;
+
+    input:focus, button:focus {
+      border-color: #0073e6;
+      outline: none;
+    }
+
+    button {
+      background-color: #0073e6;
+      color: white;
+      cursor: pointer;
       font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    button:hover {
+      background-color: #005bb5;
+    }
+
+    #eventDetails, #eventList {
+      margin-top: 30px;
+      padding: 20px;
+      border-radius: 8px;
+      background-color: #fff;
+      border: 1px solid #ddd;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    #eventDetails h2, #eventList h2 {
+      color: #0073e6;
+      margin-bottom: 20px;
+    }
+
+    #eventList ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    #eventList li {
+      padding: 10px;
+      margin-bottom: 8px;
+      background-color: #f9f9f9;
+      border: 1px solid #e0e0e0;
+      border-radius: 6px;
+      transition: background-color 0.3s ease;
+    }
+
+    #eventList li:hover {
+      background-color: #e7f3ff;
+    }
+
+    #error {
+      color: #ff4d4d;
+      font-weight: bold;
+      background-color: #ffe6e6;
+      border-radius: 6px;
+      padding: 10px;
+      margin-top: 20px;
+    }
+
+    /* Responsividade */
+    @media (max-width: 768px) {
+      body {
+        padding: 20px;
+      }
+
+      input, button {
+        font-size: 14px;
+        padding: 10px;
+      }
     }
   </style>
 </head>
 <body>
   <h1>Buscar Evento</h1>
-  <label for="eventId">ID do Evento (UUID):</label>
-  <input type="text" id="eventId" placeholder="Digite o ID do evento">
+  <label for="eventId">Pesquisa</label>
+  <input type="text" id="eventId" placeholder="Digite nome do evento">
   <button onclick="fetchEvent()">Buscar Evento</button>
 
   <div id="eventDetails" style="display:none;">
@@ -49,6 +133,11 @@
     <p><strong>Data:</strong> <span id="eventDate"></span></p>
     <p><strong>Hora:</strong> <span id="eventTime"></span></p>
     <p><strong>Quantidade de Participantes:</strong> <span id="eventAttendeesAmount"></span></p>
+  </div>
+
+  <div id="eventList" style="display:none;">
+    <h2>Eventos Cadastrados</h2>
+    <ul id="eventListItems"></ul>
   </div>
 
   <div id="error" style="display:none;"></div>
@@ -64,38 +153,108 @@
       errorElement.style.display = "none";
       
       if (!eventId) {
-        errorElement.textContent = "Por favor, insira um ID de evento válido.";
+        errorElement.textContent = "Por favor, insira um ID ou nome de evento válido.";
         errorElement.style.display = "block";
         return;
       }
 
       try {
-        const response = await fetch(`http://localhost:3000/events/${eventId}`);
+        const response = await fetch(`http://localhost:3333/events/${eventId}`);
         
-        if (!response.ok) {
+        if (response.status === 404) {
+          // Exibe a mensagem 'Event not found' se o evento não for encontrado
+          errorElement.textContent = "Event not found.";
+          errorElement.style.display = "block";
+        } else if (!response.ok) {
           const errorData = await response.json();
           errorElement.textContent = errorData.message || "Erro ao buscar evento.";
           errorElement.style.display = "block";
         } else {
           const data = await response.json();
-          const event = data.event;
+          const event = data;  // Aqui, já temos a resposta correta
 
-          document.getElementById("eventIdText").textContent = event.id;
+          // Preencher os detalhes do evento no HTML
+          document.getElementById("eventIdText").textContent = event.eventId;
           document.getElementById("eventTitle").textContent = event.title;
-          document.getElementById("eventSlug").textContent = event.slug;
+          document.getElementById("eventSlug").textContent = event.slug || "Não especificado";
           document.getElementById("eventDetailsText").textContent = event.details || "Sem descrição";
           document.getElementById("eventMaxAttendees").textContent = event.maximumAttendees || "Não especificado";
           document.getElementById("eventDate").textContent = event.date;
           document.getElementById("eventTime").textContent = event.time || "Não especificado";
-          document.getElementById("eventAttendeesAmount").textContent = event.attendeesAmount;
+          document.getElementById("eventAttendeesAmount").textContent = event.attendeesAmount || "Não especificado";
 
-          eventDetails.style.display = "block";
+          eventDetails.style.display = "block"; // Exibe os detalhes do evento
         }
       } catch (error) {
         errorElement.textContent = "Ocorreu um erro ao buscar o evento. Tente novamente mais tarde.";
         errorElement.style.display = "block";
       }
     }
+
+    async function fetchEvents() {
+  const errorElement = document.getElementById("error");
+  const eventList = document.getElementById("eventList");
+  const eventListItems = document.getElementById("eventListItems");
+
+  try {
+    const response = await fetch("http://localhost:3333/events");
+    
+    if (!response.ok) {
+      if (response.status === 404) {
+        errorElement.textContent = "Route GET:/events not found.";
+      } else {
+        const errorData = await response.json();
+        errorElement.textContent = errorData.message || "Erro ao buscar eventos.";
+      }
+      
+      // Exibir a mensagem de erro
+      errorElement.style.display = "block";
+      
+      // Ocultar a mensagem de erro após 5 segundos
+      setTimeout(() => {
+        errorElement.style.display = "none";
+      }, 0.5);
+
+      // Ou esconder a mensagem de erro quando o usuário clicar nela
+      errorElement.addEventListener('click', () => {
+        errorElement.style.display = "none";
+      });
+
+    } else {
+      const events = await response.json();
+
+      // Limpar lista de eventos anterior
+      eventListItems.innerHTML = "";
+      
+      // Adicionar os eventos à lista
+      events.forEach(event => {
+        const listItem = document.createElement("li");
+        listItem.textContent = `${event.title} - ${event.date}`;
+        eventListItems.appendChild(listItem);
+      });
+
+      // Exibir a lista de eventos
+      eventList.style.display = "block";
+    }
+  } catch (error) {
+    errorElement.textContent = "Ocorreu um erro ao buscar os eventos. Tente novamente mais tarde.";
+    errorElement.style.display = "block";
+    
+    // Ocultar a mensagem de erro após 5 segundos
+    setTimeout(() => {
+      errorElement.style.display = "none";
+    }, 0.5);
+    
+    // Ou esconder a mensagem de erro quando o usuário clicar nela
+    errorElement.addEventListener('click', () => {
+      errorElement.style.display = "none";
+    });
+  }
+}
+
+
+    // Carregar a lista de eventos ao carregar a página
+    window.onload = fetchEvents;
   </script>
 </body>
 </html>

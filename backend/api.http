@@ -77,8 +77,7 @@ Content-Type: application/json
 
 ###
 ### Descrição do evento
-GET http://localhost:3333/events/6b440ae6-860e-4774-852f-011eb70f2399
-
+GET http://localhost:3333/events/d15f4228-a948-4d15-b88b-060ac28de8f9
 ###
 
 ### Procurar o participante no evento

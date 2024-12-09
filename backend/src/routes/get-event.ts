@@ -2,69 +2,77 @@ import { FastifyInstance } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
 import { z } from "zod";
 import { prisma } from "../lib/prisma";
-import { BadRequest } from "./_errors/bad-request";
- 
 
 export async function getEvent(app: FastifyInstance) {
   app
     .withTypeProvider<ZodTypeProvider>()
-    .get('/events/:eventId', { // Removida a vírgula extra aqui
+    .get('/events/:eventId', {
       schema: {
-        summary: 'Get an event',
+        summary: 'Get an event by ID or Name',
         tags: ['events'],
         params: z.object({
-          eventId: z.string().uuid(), // Validação de UUID para o parâmetro eventId
+          eventId: z.string(), // Pode ser UUID ou nome
         }),
         response: {
-          200: {
-            event: z.object({
-              id: z.string().uuid(),
-              title: z.string().min(4),
-              slug: z.string(),
-              details: z.string().nullable(),
-              maximumAttendees: z.number().int().nullable(),
-              attendeesAmount: z.number().int(),
-            })
-          },
-        }, // Você pode especificar o esquema de resposta, se necessário
+          200: z.object({
+            eventId: z.string().uuid(),
+            title: z.string(),
+            details: z.string().nullable(),
+            maximumAttendees: z.number().nullable(),
+            date: z.string(),
+            time: z.string().nullable(),
+          }),
+          404: z.object({
+            error: z.string(),
+            message: z.string(),
+          }), // Caso o evento não seja encontrado
+          400: z.object({
+            error: z.string(),
+            message: z.string(),
+          }), // Erro de requisição
+        },
       },
     }, async (request, reply) => {
-      const { eventId } = request.params
+      const { eventId } = request.params;
 
-      // Buscando o evento no banco de dados
-      const event = await prisma.event.findUnique({
-        select: {
-          id: true,
-          title: true,
-          slug: true,
-          details: true,
-          maximumAttendees: true,
-          _count: {
-             select: {
-              Attendees: true,
-             }
+      console.log("Received request to get event with ID or name:", eventId);
+
+      try {
+        // Verifica se o evento existe pelo ID (UUID) ou nome (slug)
+        const event = await prisma.event.findFirst({
+          where: {
+            OR: [
+              { id: eventId },      // Verifica pelo ID
+              { title: eventId },   // Verifica pelo nome
+            ],
           },
-        },
-        where: {
-          id: eventId,
-        },
-      });
-
-      // Verificação se o evento existe
-      if (event === null) {
-        throw new BadRequest('Event not found');
-      }
-
-      // Retornando o evento encontrado
-      return reply.send({
-         event: {
-           id: event.id,
-           title: event.title,
-           slug: event.slug,
-           details: event.details,
-           maximumAttendees: event.maximumAttendees,
-           attendeesAmount: event._count.Attendees,
-         }, 
         });
+
+        if (!event) {
+          console.error("Event not found with ID or name:", eventId);
+          return reply.status(404).send({
+            error: 'Not Found',
+            message: 'Event not found.',
+          });
+        }
+
+        console.log("Event found:", event);
+
+        // Retorna os dados do evento
+        return {
+          eventId: event.id,
+          title: event.title,
+          details: event.details,
+          maximumAttendees: event.maximumAttendees,
+          date: event.date.toISOString().split('T')[0], // Converte a data para o formato yyyy-mm-dd
+          time: event.time,
+        };
+      } catch (error) {
+        console.error("Error retrieving event:", error);
+        return reply.status(500).send({
+          error: 'Internal Server Error',
+          message: 'There was an error retrieving the event.',
+        });
+      }
     });
 }
