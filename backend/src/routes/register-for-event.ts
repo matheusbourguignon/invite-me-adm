@@ -28,6 +28,7 @@ export async function registerForEvent(app: FastifyInstance) {
       const { eventId } = request.params;
       const { name, email } = request.body;
 
+      // Verificar se o e-mail já está registrado para o evento
       const inviteFromEmail = await prisma.invite.findUnique({
         where: {
           eventId_email: {
@@ -38,9 +39,10 @@ export async function registerForEvent(app: FastifyInstance) {
       });
 
       if (inviteFromEmail) {
-        throw new BadRequest('This e-mail is already registered for this event');
+        throw new BadRequest('Este e-mail já está registrado para este evento');
       }
 
+      // Verificar se o evento existe e se o limite de participantes foi atingido
       const [event, amountOfInvitesForEvent] = await Promise.all([
         prisma.event.findUnique({
           where: {
@@ -55,13 +57,14 @@ export async function registerForEvent(app: FastifyInstance) {
       ]);
 
       if (!event) {
-        throw new BadRequest('Event not found');
+        throw new BadRequest('Evento não encontrado');
       }
 
       if (event?.maximumAttendees && amountOfInvitesForEvent >= event?.maximumAttendees) {
-        throw new BadRequest('The maximum number of invites for this event has been reached.');
+        throw new BadRequest('O número máximo de participantes para este evento foi atingido');
       }
 
+      // Criar o convite
       const invite = await prisma.invite.create({
         data: {
           name,
@@ -73,4 +76,3 @@ export async function registerForEvent(app: FastifyInstance) {
       return reply.status(201).send({ inviteId: invite.id });
     });
 }
-
