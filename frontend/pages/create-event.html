@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar Evento</title>
+    <!-- Adicionando o Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Adicionando a biblioteca Inputmask -->
+    <script src="https://cdn.jsdelivr.net/npm/inputmask@5.0.7/dist/inputmask.min.js"></script>
+</head>
+<body>
+    <div class="container my-5">
+        <h2 class="text-center">Criar Evento</h2>
+        <form id="createEventForm">
+            <div class="mb-3">
+                <label for="title" class="form-label">Nome do Evento:</label>
+                <input type="text" class="form-control" id="title" required>
+                <div id="titleError" class="text-danger mt-2 d-none">O nome do evento deve conter apenas letras e espaços.</div>
+            </div>
+            <div class="mb-3">
+                <label for="details" class="form-label">Descrição do Evento:</label>
+                <textarea class="form-control" id="details"></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="maximumAttendees" class="form-label">Capacidade Máxima:</label>
+                <input type="number" class="form-control" id="maximumAttendees">
+            </div>
+            <div class="mb-3">
+                <label for="date" class="form-label">Data do evento:</label>
+                <input type="text" class="form-control" id="date" placeholder="dd/mm/yyyy" required>
+            </div>
+            <div class="mb-3">
+                <label for="time" class="form-label">Horário do evento:</label>
+                <input type="text" class="form-control" id="time" placeholder="00:00">
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Criar Evento</button>
+        </form>
+        <div id="error-message" class="alert alert-danger mt-3 d-none" role="alert"></div>
+        <div id="success-message" class="alert alert-success mt-3 d-none" role="alert"></div>
+    </div>
+
+    <style>
+        /* Resetando a margin e padding para todos os elementos */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Estilo geral do corpo da página */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7fc;
+            color: #333;
+        }
+
+        /* Estilo do container principal */
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Título do formulário */
+        h2 {
+            font-size: 24px;
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        /* Estilo das labels dos campos */
+        label {
+            font-size: 14px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        /* Estilo dos campos de input e textarea */
+        input.form-control, textarea.form-control {
+            font-size: 16px;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 100%;
+        }
+
+        /* Estilo do botão de envio */
+        button.btn-primary {
+            font-size: 16px;
+            font-weight: bold;
+            padding: 12px;
+            background-color: #249758;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            transition: background-color 0.3s;
+            cursor: pointer;
+        }
+
+        button.btn-primary:hover {
+            background-color: #187a44;
+        }
+
+        /* Estilo da mensagem de erro */
+        #titleError {
+            font-size: 12px;
+            color: #e74c3c;
+            margin-top: 10px;
+        }
+
+        /* Estilo da mensagem de sucesso e erro global */
+        .alert {
+            font-size: 16px;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 5px;
+        }
+
+        .alert-success {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .alert-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        /* Estilo para os campos de data e hora */
+        input[type="text"]:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        textarea:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        /* Estilo para as mensagens de sucesso ou erro */
+        .d-none {
+            display: none;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 20px;
+            }
+        }
+    </style>
+
+    <script>
+        // Aplicando as máscaras de data e hora
+        Inputmask("99/99/9999").mask(document.getElementById("date"));
+        Inputmask("99:99").mask(document.getElementById("time"));
+
+        // Função para validar o nome do evento
+        function validateTitle(title) {
+            const regex = /^[A-Za-zÀ-ÖØ-öø-ÿ\s]+$/;  // Permite letras e espaços, incluindo acentos
+            return regex.test(title);
+        }
+
+        // Função para validar e enviar os dados do evento para o back-end
+        document.getElementById('createEventForm').addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            const title = document.getElementById('title').value;
+            const details = document.getElementById('details').value;
+            const maximumAttendees = document.getElementById('maximumAttendees').value;
+            const date = document.getElementById('date').value;
+            const time = document.getElementById('time').value;
+
+            // Exibindo a mensagem de erro ou sucesso
+            const errorMessage = document.getElementById('error-message');
+            const successMessage = document.getElementById('success-message');
+            const titleError = document.getElementById('titleError');
+
+            // Limpando as mensagens
+            errorMessage.classList.add('d-none');
+            successMessage.classList.add('d-none');
+            titleError.classList.add('d-none');
+
+            // Validação do nome do evento
+            if (!validateTitle(title)) {
+                titleError.classList.remove('d-none');
+                return;  // Impede o envio do formulário
+            }
+
+            try {
+                const response = await fetch('http://localhost:3333/events', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        title,
+                        details,
+                        maximumAttendees: maximumAttendees ? parseInt(maximumAttendees) : null,
+                        date,
+                        time,
+                    }),
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    errorMessage.textContent = errorData.message || 'Erro ao criar evento';
+                    errorMessage.classList.remove('d-none');
+                } else {
+                    const data = await response.json();
+                    successMessage.textContent = `Evento criado com sucesso! ID: ${data.eventId}`;
+                    successMessage.classList.remove('d-none');
+                    // Limpa o formulário
+                    document.getElementById('createEventForm').reset();
+                }
+            } catch (error) {
+                errorMessage.textContent = 'Erro ao conectar com o servidor';
+                errorMessage.classList.remove('d-none');
+            }
+        });
+    </script>
+</body>
+</html>

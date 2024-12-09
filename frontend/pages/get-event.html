@@ -35,15 +35,8 @@
 </head>
 <body>
   <h1>Buscar Evento</h1>
-  
-  <!-- Campo para busca por ID -->
   <label for="eventId">ID do Evento (UUID):</label>
   <input type="text" id="eventId" placeholder="Digite o ID do evento">
-  
-  <!-- Campo para busca por nome -->
-  <label for="eventName">Nome do Evento:</label>
-  <input type="text" id="eventName" placeholder="Digite o nome do evento">
-
   <button onclick="fetchEvent()">Buscar Evento</button>
 
   <div id="eventDetails" style="display:none;">
@@ -63,7 +56,6 @@
   <script>
     async function fetchEvent() {
       const eventId = document.getElementById("eventId").value;
-      const eventName = document.getElementById("eventName").value;
       const errorElement = document.getElementById("error");
       const eventDetails = document.getElementById("eventDetails");
 
@@ -71,23 +63,15 @@
       eventDetails.style.display = "none";
       errorElement.style.display = "none";
       
-      if (!eventId && !eventName) {
-        errorElement.textContent = "Por favor, insira o ID ou o nome do evento.";
+      if (!eventId) {
+        errorElement.textContent = "Por favor, insira um ID de evento válido.";
         errorElement.style.display = "block";
         return;
       }
 
       try {
-        let url = "";
+        const response = await fetch(`http://localhost:3000/events/${eventId}`);
         
-        if (eventId) {
-          url = `http://localhost:3000/events/${eventId}`;
-        } else if (eventName) {
-          url = `http://localhost:3000/events/search?name=${encodeURIComponent(eventName)}`;
-        }
-
-        const response = await fetch(url);
-
         if (!response.ok) {
           const errorData = await response.json();
           errorElement.textContent = errorData.message || "Erro ao buscar evento.";
