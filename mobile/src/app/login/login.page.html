@@ -48,6 +48,18 @@
       Entrar
     </ion-button>
 
+        <!-- Botão de Login com Google -->
+    <ion-button
+      expand="block"
+      (click)="loginWithGoogle()"
+      class="custom-login-button"
+    
+    >
+      <ion-icon slot="start" name="logo-google"></ion-icon>
+      Entrar com Google
+    </ion-button>
+
+
     <div class="link-container">
       <ion-label>
         <a routerLink="/create-account" class="custom-link">Ainda não tem uma conta? Crie uma</a>

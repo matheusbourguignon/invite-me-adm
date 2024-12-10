@@ -42,4 +42,28 @@ export class LoginPage {
       }
     }
   }
+
+  /**
+   * Método para login com o Google
+   */
+  async loginWithGoogle() {
+    try {
+      const response = await this.authService.loginWithGoogle().toPromise();
+      
+      console.log('Login com Google realizado com sucesso!', response);
+
+      // Salva o token ou informações do usuário no localStorage, se necessário
+      localStorage.setItem('userToken', response.token);
+
+      // Exibe a mensagem de sucesso
+      this.showSuccessMessage = true;
+
+      // Redireciona para as tabs após o login
+      this.router.navigate(['/tabs']);
+    } catch (error) {
+      console.error('Erro ao fazer login com o Google:', error);
+      alert('Erro ao fazer login com o Google.');
+      this.showSuccessMessage = false;
+    }
+  }
 }
