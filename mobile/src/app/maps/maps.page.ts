@@ -1,58 +1,44 @@
 import { Component, AfterViewInit } from '@angular/core';
-import { Router } from '@angular/router';
-
-declare var google: any; // Declara o objeto global do Google Maps
-
+import { Browser } from '@capacitor/browser';
 @Component({
-  selector: 'app-maps',
-  templateUrl: './maps.page.html',
-  styleUrls: ['./maps.page.scss'],
+  selector: 'app-map',
+  templateUrl: './map.page.html',
+  styleUrls: ['./map.page.scss'],
 })
-export class MapsPage implements AfterViewInit {
-  salonLocation = {
-    lat: -22.911616868134058,
-    lng: -43.54839930978883,
-  };
-
+export class MapPage implements AfterViewInit {
   map: any;
+  salonLocation = { lat: -23.55052, lng: -46.633308 }; // Coordenadas do salão
 
-  constructor(private router: Router) {}
+  constructor() {}
 
   ngAfterViewInit() {
-    this.loadMap(); // Carrega o mapa após o elemento estar disponível na tela
+    this.loadMap();
   }
 
-  // Método para carregar o mapa centrado nas coordenadas do salão
   loadMap() {
-    const mapElement = document.getElementById('map');
-    if (mapElement) {
-      this.map = new google.maps.Map(mapElement, {
+    const mapContainer = document.getElementById('map');
+    if (mapContainer) {
+      this.map = new google.maps.Map(mapContainer, {
         center: this.salonLocation,
-        zoom: 16, // Nível de zoom
+        zoom: 15,
       });
 
-      // Adiciona marcador nas coordenadas do salão
       new google.maps.Marker({
         position: this.salonLocation,
         map: this.map,
-        title: 'Casa de Festas Jardim do Lago',
+        title: 'Local do Salão',
       });
     }
   }
 
-  // Método para abrir o Waze usando a API do Waze
   navigateToSalonUsingWazeAPI() {
-    const { lat, lng } = this.salonLocation;
-
-    // Monta o URL para a API do Waze
-    const wazeApiUrl = `https://www.waze.com/ul?ll=${lat},${lng}&navigate=yes`;
-
-    // Abre a URL no app do Waze ou no navegador
-    window.open(wazeApiUrl, '_blank');
+    const salonLocation = { lat: -23.55052, lng: -46.633308 };
+    const url = `https://waze.com/ul?ll=${salonLocation.lat},${salonLocation.lng}&navigate=yes`;
+    Browser.open({ url });
   }
+  
 
-  // Método para voltar à página anterior
   goBack() {
-    this.router.navigate(['/tabs/tab1']);
+    history.back();
   }
 }
